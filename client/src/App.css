@@ -5,6 +5,14 @@
   font-family: "Poppins", sans-serif;
 }
 
+.addProductPage {
+  display: flex;
+  flex-direction: column;
+
+  margin: 5rem;
+  gap: 5px;
+}
+
 .products {
   display: flex;
   flex-direction: row;
