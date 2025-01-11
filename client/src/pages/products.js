@@ -13,14 +13,16 @@ function Products() {
     }, [])
 
     return (
-        <div>
+        <div className='products'>
             {listOfProducts.map((value, key) => {
                 return <div className='product'>
                     <div className='product-img'></div>
                     <div className='product-infos'>
                         <h2>{value.name}</h2>
-                        <span>{value.value}</span>
-                        <p>ou em até 00x de R$00,00</p>
+                        <div className='valores'>
+                            <span>R${value.value},00</span>
+                            <p>ou em até 00x de R$00,00</p>
+                        </div>
                     </div>
                 </div>
             })}
