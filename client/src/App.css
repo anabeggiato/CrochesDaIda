@@ -29,12 +29,13 @@
   justify-content: center;
   gap: .8rem;
 
-  margin: 4vh 0;
+  margin: 4vh 4vw;
 }
 
 .product {
-  display: grid;
-  justify-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   background-color: #fad6ff;
 
@@ -42,22 +43,33 @@
   height: 43vh;
   border-radius: 1.25rem;
 
+  gap: .5rem;
+
+}
+
+.product:hover {
+  width: 16vw;
+  height: 45vh;
 }
 
 .product-img {
   background-color: #ffff;
 
-  width: 13vw;
-  height: 28vh;
+  width: 90%;
+  height: 70%;
   border-radius: 1.25rem;
 
   margin-top: 2vh;
 }
 
+
+
 .product-infos {
   display: flex;
   flex-direction: column;
   gap: .3rem;
+
+  height: 30%;
 }
 
 .product-infos>h2 {
@@ -88,5 +100,4 @@
   font-weight: 400;
   line-height: normal;
 
-  margin-bottom: .3rem;
 }
