@@ -4,9 +4,11 @@ import NavInf from '../components/navInf'
 
 function Home() {
     return (
-        <div className='home' >
+        <div className='home'>
+            <div>
             <NavSup />
             <NavInf />
+            </div>
         </div >
     )
 }

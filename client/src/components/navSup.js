@@ -21,18 +21,18 @@ function NavSup() {
                 </div>
 
                 <div className='cart-section'>
-                    <img src={cart} alt='' width='45%' />
+                    <img src={cart} alt='' width='35%' />
                     <div className='infos-cart-section'>
                         <p>{itens} itens</p>
-                        <p>R${valor},00</p>
+                        <span>R${valor},00</span>
                     </div>
                 </div>
 
                 <div className='profile-section'>
-                    <img src={profile} alt='' width='20%' />
+                    <img src={profile} alt='' width='18%' />
                     <div className='infos-profile-section'>
-                        <span>Olá, seja bem-vindo(a)!</span>
-                        <p>Faça login ou cadastre-se</p>
+                        <span>Olá, seja bem-vindo(a)!</span><br/>
+                        <a href='#'>Faça login ou cadastre-se</a>
                     </div>
                 </div>
             </nav>
