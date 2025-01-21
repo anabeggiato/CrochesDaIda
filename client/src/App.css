@@ -234,16 +234,43 @@ a {
   border-radius: 2rem;
 }
 
-.events {
+.events-carroussel {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding: 5rem 2.5rem;
-  margin-bottom: 2rem;
+  padding: 2.5rem 2.5rem .5rem 2.5rem;
+
+  overflow-x: auto;
+  scroll-behavior: smooth;
 
   background-color: #C514DB;
-  gap: .8rem;
+  gap: .8rem
 }
+
+.events-carroussel::-webkit-scrollbar {
+  display: none;
+}
+
+
+.buttons {
+  width: 100%;
+  background-color: #C514DB;
+  text-align: center;
+  padding-bottom: 1.5rem;
+}
+
+.buttons img {
+  width: 150%;
+}
+
+.buttons button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.buttons button:first-child img {
+  transform: rotate(180deg);
+}
+
 
 .event-card {
   display: flex;
@@ -253,11 +280,13 @@ a {
   background-color: #ffff;
 
   width: 16vw;
-  height: 44vh;
+  height: 46vh;
   border-radius: 1.25rem;
+  flex: none;
 
   gap: .5rem;
   padding-bottom: .5rem;
+  margin-bottom: .1rem;
 }
 
 .event-card:hover {
@@ -280,7 +309,7 @@ a {
   flex-direction: column;
   gap: .3rem;
 
-  height: 30%;
+  height: 40%;
 }
 
 .event-infos>h2 {
@@ -289,7 +318,7 @@ a {
   font-weight: 500;
   line-height: normal;
 
-  padding: 0 .5rem;
+  padding: 0 .5rem .3rem .5rem;
 }
 
 .event-infos>p {

@@ -1,16 +1,39 @@
 import React from 'react'
+import axios from 'axios'
+import { useEffect, useState, useRef } from 'react'
+
 import NavSup from '../components/navSup'
 import NavInf from '../components/navInf'
-import us from '../assets/us.png'
-import reviewer from '../assets/reviewer.png'
 import Footer from '../components/footer'
 
+import us from '../assets/us.png'
+import reviewer from '../assets/reviewer.png'
+import arrow from '../assets/Arrow.png'
+
+
 function Home() {
-    const nomeFeira = 'Mãos e mentes Paulistanas'
-    const data = '00/00/0000'
-    const horario = '10h - 17h'
-    const localizacao = 'Parque do cordeiro'
+    const [listOfEvents, setListOfevents] = useState([]);
     const reviewerName = 'Fulano de tal'
+    const carroussel = useRef(null);
+
+    useEffect(() => {
+        axios.get('http://localhost:3001/').then((response) => {
+            setListOfevents(response.data)
+        })
+    }, [])
+
+
+    const handleLeftClick = (e) => {
+        e.preventDefault();
+        console.log(carroussel.current.offsetWidth);
+        carroussel.current.scrollLeft -= carroussel.current.offsetWidth
+    }
+
+    const handleRightClick = (e) => {
+        e.preventDefault();
+        console.log(carroussel.current.offsetWidth);
+        carroussel.current.scrollLeft += carroussel.current.offsetWidth
+    }
 
     return (
         <div className='home'>
@@ -26,62 +49,29 @@ function Home() {
                 </div>
             </section>
 
-            <section className='events'>
-                <div className='event-card'>
-                    <div className='event-image'></div>
-                    <div className='event-infos'>
-                        <h2>{nomeFeira}</h2>
-                        <p>Data: {data} </p>
-                        <p>Horário: {horario} </p>
-                        <p>Localização: {localizacao} </p>
+            <section className='events-carroussel' ref={carroussel}>
+                {listOfEvents.map((value, key) => {
+                    return <div className='event-card'>
+                        <div className='event-image'></div>
+                        <div className='event-infos'>
+                            <h2>{value.name}</h2>
+                            <p>Data: {value.date} </p>
+                            <p>Horário: {value.startTime}h - {value.endTime}h </p>
+                            <p>Localização: {value.location} </p>
+                        </div>
                     </div>
-                </div>
-
-                <div className='event-card'>
-                    <div className='event-image'></div>
-                    <div className='event-infos'>
-                        <h2>{nomeFeira}</h2>
-                        <p>Data: {data} </p>
-                        <p>Horário: {horario} </p>
-                        <p>Localização: {localizacao} </p>
-                    </div>
-                </div>
-
-                <div className='event-card'>
-                    <div className='event-image'></div>
-                    <div className='event-infos'>
-                        <h2>{nomeFeira}</h2>
-                        <p>Data: {data} </p>
-                        <p>Horário: {horario} </p>
-                        <p>Localização: {localizacao} </p>
-                    </div>
-                </div>
-
-                <div className='event-card'>
-                    <div className='event-image'></div>
-                    <div className='event-infos'>
-                        <h2>{nomeFeira}</h2>
-                        <p>Data: {data} </p>
-                        <p>Horário: {horario} </p>
-                        <p>Localização: {localizacao} </p>
-                    </div>
-                </div>
-
-                <div className='event-card'>
-                    <div className='event-image'></div>
-                    <div className='event-infos'>
-                        <h2>{nomeFeira}</h2>
-                        <p>Data: {data} </p>
-                        <p>Horário: {horario} </p>
-                        <p>Localização: {localizacao} </p>
-                    </div>
-                </div>
+                })}
             </section>
+
+            <div className='buttons'>
+                <button> <img src={arrow} alt='left arrow' onClick={handleLeftClick} /></button>
+                <button> <img src={arrow} alt='right arrow' onClick={handleRightClick} /></button>
+            </div>
 
             <section className='reviews'>
                 <div className='review-card'>
                     <div className='reviewer-image'>
-                        <img src={reviewer} alt='' width='90%'/>
+                        <img src={reviewer} alt='' width='90%' />
                     </div>
                     <div className='review-content'>
                         <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac augue eu lorem fermentum lobortis. Donec ut dui quis sapien facilisis venenatis ac vitae nibh. In eget mauris imperdiet nisi sollicitudin congue."</p>
@@ -91,7 +81,7 @@ function Home() {
 
                 <div className='review-card'>
                     <div className='reviewer-image'>
-                        <img src={reviewer} alt='' width='90%'/>
+                        <img src={reviewer} alt='' width='90%' />
                     </div>
                     <div className='review-content'>
                         <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac augue eu lorem fermentum lobortis. Donec ut dui quis sapien facilisis venenatis ac vitae nibh. In eget mauris imperdiet nisi sollicitudin congue."</p>
@@ -101,7 +91,7 @@ function Home() {
 
                 <div className='review-card'>
                     <div className='reviewer-image'>
-                        <img src={reviewer} alt='' width='90%'/>
+                        <img src={reviewer} alt='' width='90%' />
                     </div>
                     <div className='review-content'>
                         <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac augue eu lorem fermentum lobortis. Donec ut dui quis sapien facilisis venenatis ac vitae nibh. In eget mauris imperdiet nisi sollicitudin congue."</p>
@@ -111,7 +101,7 @@ function Home() {
 
                 <div className='review-card'>
                     <div className='reviewer-image'>
-                        <img src={reviewer} alt='' width='90%'/>
+                        <img src={reviewer} alt='' width='90%' />
                     </div>
                     <div className='review-content'>
                         <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac augue eu lorem fermentum lobortis. Donec ut dui quis sapien facilisis venenatis ac vitae nibh. In eget mauris imperdiet nisi sollicitudin congue."</p>
