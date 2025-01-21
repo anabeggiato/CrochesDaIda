@@ -2,6 +2,8 @@ import '../App.css'
 import React from 'react'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import NavSup from '../components/navSup'
+import NavInf from '../components/navInf'
 
 function Products() {
     const [listOfProducts, setListOfProducts] = useState([]);
@@ -13,6 +15,9 @@ function Products() {
     }, [])
 
     return (
+        <div>
+            <NavSup />
+            <NavInf />
         <div className='products'>
             {listOfProducts.map((value, key) => {
                 return <div className='product'>
@@ -26,6 +31,7 @@ function Products() {
                     </div>
                 </div>
             })}
+        </div>
         </div>
     )
 }

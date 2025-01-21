@@ -5,6 +5,7 @@
   font-family: "Poppins", sans-serif;
 }
 
+/* ADMIN PAGE */
 .addProductPage {
   display: flex;
   flex-direction: column;
@@ -22,6 +23,7 @@
   text-align: center;
 }
 
+/* PRODUCTS PAGE */
 .products {
   display: flex;
   flex-direction: row;
@@ -62,8 +64,6 @@
   margin-top: 2vh;
 }
 
-
-
 .product-infos {
   display: flex;
   flex-direction: column;
@@ -99,5 +99,78 @@
   font-style: italic;
   font-weight: 400;
   line-height: normal;
+}
 
+/* NAVBAR */
+.navbar-top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+
+  margin-top: 1rem;
+}
+
+.search-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: .7rem;
+}
+
+.search-section>input {
+  border-radius: 20px;
+  border: 1px solid #B1B1B1;
+  padding: .6rem .8rem;
+  width: 12rem;
+  z-index: -1;
+
+  color: #868686;
+  font-weight: 200;
+
+  margin-left: -.7rem;
+}
+
+.cart-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: .5rem;
+}
+
+.profile-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: .5rem;
+}
+
+.navbar-botton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #C514DB;
+
+}
+
+.navbar-botton>a {
+  padding: 1.5rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #ffff;
+}
+
+.navbar-botton>a:hover {
+  background-color: #ffff;
+  color: #C514DB;
+}
+
+.separation {
+  width: .1rem;
+  /* Espessura da linha */
+  height: 3rem;
+  background-color: #ffff;
+  /* Cor da linha */
 }
