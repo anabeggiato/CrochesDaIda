@@ -3,6 +3,7 @@ import NavSup from '../components/navSup'
 import NavInf from '../components/navInf'
 import us from '../assets/us.png'
 import reviewer from '../assets/reviewer.png'
+import Footer from '../components/footer'
 
 function Home() {
     const nomeFeira = 'Mãos e mentes Paulistanas'
@@ -118,6 +119,8 @@ function Home() {
                     </div>
                 </div>
             </section>
+
+            <Footer />
 
         </div >
     )

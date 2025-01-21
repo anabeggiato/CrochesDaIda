@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import NavSup from '../components/navSup'
 import NavInf from '../components/navInf'
+import Footer from '../components/footer'
 
 function Products() {
     const [listOfProducts, setListOfProducts] = useState([]);
@@ -32,6 +33,8 @@ function Products() {
                 </div>
             })}
         </div>
+
+        <Footer />
         </div>
     )
 }
