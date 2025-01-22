@@ -237,6 +237,7 @@ a {
 .events-carroussel {
   display: flex;
   padding: 2.5rem 2.5rem .5rem 2.5rem;
+  justify-content: center;
 
   overflow-x: auto;
   scroll-behavior: smooth;

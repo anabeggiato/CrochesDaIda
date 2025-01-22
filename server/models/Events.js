@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         date: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: false,
         },
 

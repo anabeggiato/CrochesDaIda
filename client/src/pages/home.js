@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import { useEffect, useState, useRef } from 'react'
+import { format } from 'date-fns';
 
 import NavSup from '../components/navSup'
 import NavInf from '../components/navInf'
@@ -17,10 +18,18 @@ function Home() {
     const carroussel = useRef(null);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/').then((response) => {
-            setListOfevents(response.data)
-        })
-    }, [])
+        axios.get('http://localhost:3001/')
+            .then((response) => {
+                const formatedEvents = response.data.map(evento => ({
+                    ...evento,
+                    date: format(new Date(evento.date), 'dd/MM/yyyy') // Formata a data para 'dd/MM/yyyy'
+                }));
+                setListOfevents(formatedEvents);
+            })
+            .catch((error) => {
+                console.error("Erro ao buscar os eventos: ", error);
+            });
+    }, []);
 
 
     const handleLeftClick = (e) => {
