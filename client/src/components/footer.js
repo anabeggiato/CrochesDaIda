@@ -2,12 +2,8 @@ import React, { Component } from 'react'
 import logo from '../assets/Logo.png'
 import instagram from '../assets/instagram.png'
 import whatsapp from '../assets/whatsapp.png'
-import visa from '../assets/Visa.png'
-import mastercard from '../assets/Mastercard.png'
-import maestro from '../assets/Maestro.png'
-import elo from '../assets/Elo.png'
-import boleto from '../assets/Boleto.png'
 import email from '../assets/email.png'
+import PaymentMethods from './paymentMethods'
 
 export class Footer extends Component {
   render() {
@@ -36,27 +32,7 @@ export class Footer extends Component {
         <section className='others'>
             <div className='payment'>
                 <span className='footer-span'>Pague com</span>
-                <div className='payment-methods'>
-                    <div className='payment-method'>
-                        <img src={visa} alt='' />
-                    </div>
-
-                    <div className='payment-method'>
-                        <img src={mastercard} alt='' />
-                    </div>
-
-                    <div className='payment-method'>
-                        <img src={maestro} alt='' />
-                    </div>
-
-                    <div className='payment-method'>
-                        <img src={elo} alt='' />
-                    </div>
-
-                    <div className='payment-method'>
-                        <img src={boleto} alt='' />
-                    </div>
-                </div>
+                <PaymentMethods />
 
                 <div className='service'>
                 <span className='footer-span'>Atendimento</span>
