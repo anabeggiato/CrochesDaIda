@@ -2,6 +2,7 @@ import '../App.css'
 import React from 'react'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import NavSup from '../components/navSup'
 import NavInf from '../components/navInf'
@@ -9,6 +10,7 @@ import Footer from '../components/footer'
 
 function Products() {
     const [listOfProducts, setListOfProducts] = useState([]);
+    let navigate = useNavigate();
 
     useEffect(() => {
         axios.get('http://localhost:3001/produtos').then((response) => {
@@ -22,7 +24,7 @@ function Products() {
             <NavInf />
             <div className='products'>
                 {listOfProducts.map((value, key) => {
-                    return <div className='product'>
+                    return <div className='product' onClick={() => {navigate(`/produto/${value.id}`)}} >
                         <div className='product-img'></div>
                         <div className='product-infos'>
                             <h2>{value.name}</h2>
