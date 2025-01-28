@@ -26,7 +26,7 @@ function Products() {
                 {listOfProducts.map((value, key) => {
                     return <div className='product' onClick={() => {navigate(`/produto/${value.id}`)}} >
                         <div className='product-img'></div>
-                        <div className='product-infos'>
+                        <div className='product-card-infos'>
                             <h2>{value.name}</h2>
                             <div className='valores'>
                                 <span>R${value.value},00</span>
