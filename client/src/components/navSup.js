@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import logo from '../assets/Logo.png'
-import search from '../assets/search.png'
-import cart from '../assets/cart.png'
-import profile from '../assets/defaultProfile.png'
+import logoRetangular from '../assets/logoRetangular.png'
+import { FaShoppingCart, FaUserCircle } from "react-icons/fa"
+import { IoSearchCircle } from "react-icons/io5";
 
 function NavSup() {
     const itens = 0
@@ -13,16 +13,17 @@ function NavSup() {
         <StyledWrapper>
             <nav className='navbar-top'>
                 <a href='/'>
-                    <img src={logo} alt='' width='40%' href='/' />
+                    <img src={logo} alt='' width='40%' href='/' className='logo-desktop' />
+                    <img src={logoRetangular} alt='' href='/' className='logo-mobile' />
                 </a>
 
                 <div className='search-section'>
-                    <img src={search} alt='' width='20%' />
+                    <IoSearchCircle className='search-icon' />
                     <input placeholder='Buscar no site...' />
                 </div>
 
                 <div className='cart-section'>
-                    <img src={cart} alt='' width='35%' />
+                    <FaShoppingCart className='cart-icon'/>
                     <div className='infos-cart-section'>
                         <p>{itens} itens</p>
                         <span>R${valor},00</span>
@@ -30,10 +31,10 @@ function NavSup() {
                 </div>
 
                 <div className='profile-section'>
-                    <img src={profile} alt='' width='18%' />
+                    <FaUserCircle className='profile-icon' />
                     <div className='infos-profile-section'>
                         <span>Olá, seja bem-vindo(a)!</span><br/>
-                        <a href='#'>Faça login ou cadastre-se</a>
+                        <a href='/modularizes page styling'>Faça login ou cadastre-se</a>
                     </div>
                 </div>
             </nav>
@@ -52,11 +53,20 @@ const StyledWrapper = styled.div`
   width: 100%;
 }
 
+.logo-mobile {
+  display: none;
+}
+
 .search-section {
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-left: 1.2rem;
+}
+
+.search-icon {
+  font-size: 4rem;
+    color: #860194;
 }
 
 .search-section>input {
@@ -78,6 +88,12 @@ const StyledWrapper = styled.div`
   align-items: center;
   gap: .5rem;
 }
+
+  .cart-icon,
+  .profile-icon {
+    font-size: 3rem;
+    color: #860194;
+  }
 
 .infos-cart-section>span {
   font-weight: 600;
@@ -101,7 +117,46 @@ const StyledWrapper = styled.div`
 
 .infos-profile-section>a:hover {
   text-decoration: underline;
-}`
+}
+
+  @media (max-width: 800px) {
+  .navbar-top {
+    margin-top: .4rem;
+  }
+
+  .logo-desktop {
+    display: none;
+  }
+
+  .logo-mobile {
+    display: flex;
+  }
+
+  .cart-icon, 
+  .profile-icon {
+    font-size: 1.3rem;
+  }
+
+  .search-icon {
+    font-size: 2rem;
+  }
+
+
+  .infos-cart-section,
+  .infos-profile-section {
+    display: none;
+  }
+
+  .search-section>input {
+    border-radius: 10px;
+    padding: .2rem .4rem .2rem .8rem;
+    width: 6rem;
+    z-index: -1;
+    font-size: .5rem;
+  }
+}
+
+`
 
 export default NavSup
 
