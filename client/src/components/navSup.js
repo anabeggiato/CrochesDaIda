@@ -79,7 +79,7 @@ const StyledWrapper = styled.div`
   color: #868686;
   font-weight: 300;
 
-  margin-left: -1rem;
+  margin-left: -1.5rem;
 }
 
 .cart-section {
