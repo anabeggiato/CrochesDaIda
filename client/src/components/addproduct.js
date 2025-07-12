@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
@@ -6,12 +6,20 @@ import { Link } from 'react-router-dom'
 
 function AddProduct() {
 
+    const [imageFile, setImageFile] = useState(null)
+
     const initialValues = {
         name: '',
         value: '',
         height: '',
+        width: '',
+        weight: '',
         available: '',
         description: ''
+    }
+
+    const handleImageChange = (event) => {
+        setImageFile(event.currentTarget.files[0]);
     }
 
     const validationSchema = Yup.object().shape({
@@ -24,18 +32,34 @@ function AddProduct() {
         description: Yup.string().max(200, 'A descrição precisa ter no máximo 200 caracteres!')
     })
 
-    const onsubmit = (data) => {
-        axios.post('http://localhost:3001/admin/produtos', data).then((response) => {
-            alert('Produto adicionado com sucesso!')
-            window.location.reload();
+    const onsubmit = (values) => {
+        const formData = new FormData();
+        for (const key in values) {
+            formData.append(key, values[key]);
+        }
+        if (imageFile) {
+            formData.append('image', imageFile);
+        }
+
+        axios.post('http://localhost:3001/admin/produtos', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
         })
+            .then((response) => {
+                alert('Produto adicionado com sucesso!')
+                window.location.reload();
+            })
+            .catch((err) => {
+                console.error('Erro ao adicionar produto:', err)
+            })
     }
 
     return (
         <div>
             <Formik initialValues={initialValues} onSubmit={onsubmit} validationSchema={validationSchema}>
                 <Form className='addProductPage'>
-                <h2> Adição de novos produtos</h2>
+                    <h2> Adição de novos produtos</h2>
                     <label>Nome do produto:</label>
                     <ErrorMessage name='name' component='span' />
                     <Field
@@ -100,11 +124,19 @@ function AddProduct() {
                         placeholder='Adicione uma pequena descrição ao produto'
                     />
 
+                    <label>Imagem do produto:</label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                    />
+
+
                     <button type="submit">Cadastrar Produto</button>
                     <Link to='/produtos' className='link'>Ver produtos já cadastrados</Link>
                 </Form>
 
-                
+
             </Formik>
         </div>
     )

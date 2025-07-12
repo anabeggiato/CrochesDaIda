@@ -22,7 +22,10 @@ function Products() {
       <div className='products'>
         {listOfProducts.map((value, key) => {
           return <div className='product' >
-            <div className='product-img'></div>
+            <div className='product-img'>
+              <img src={value.image_url} alt={value.name} />
+              {console.log(value.image_url)}
+            </div>
             <div className='product-card-infos'>
               <h2>{value.name}</h2>
               <span>R${value.value},00</span>
@@ -62,13 +65,17 @@ const StyledWrapper = styled.div`
 }
 
 .product-img {
-  background-color: #ffff;
-
   width: 90%;
   height: 70%;
-  border-radius: 1.25rem;
-
   margin-top: 2vh;
+  border-radius: 1.25rem;
+}
+
+.product-img img {
+  width: 100%;
+  border-radius: 1.25rem;
+  border: .25px solid #C514DB;
+  max-height: 220px;
 }
 
 .product-card-infos {

@@ -1,13 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import AddProduct from '../components/addproduct'
-import AddEvent from '../components/addevents'
 
 function Admin() {
     return (
         <StyledWrapper>
             <AddProduct />
-            <AddEvent />
         </StyledWrapper>
     )
 }
