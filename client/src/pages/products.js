@@ -9,7 +9,7 @@ function Products() {
   const [listOfProducts, setListOfProducts] = useState([]);
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/produtos`)
+    axios.get(`${process.env.REACT_APP_API_URL}/`)
       .then((response) => {
         console.log('Resposta da API:', response.data)
         setListOfProducts(response.data)
