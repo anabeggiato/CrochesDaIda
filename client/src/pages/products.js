@@ -1,12 +1,10 @@
 import '../App.css'
-import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import NavSup from '../components/navSup'
-import Footer from '../components/footer'
 
 function Products() {
   const [listOfProducts, setListOfProducts] = useState([]);
