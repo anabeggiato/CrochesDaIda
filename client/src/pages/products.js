@@ -28,6 +28,10 @@ function Products() {
             <div className='product-card-infos'>
               <h2>{value.name}</h2>
               <span>R${value.value},00</span>
+              <div className='dimensions'>
+                <p>{value.height}cm x {value.width}cm</p>
+                <p>{value.weight}g</p>
+              </div>
 
             </div>
           </div>
@@ -40,9 +44,9 @@ function Products() {
 const StyledWrapper = styled.div`
 .products {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   justify-items: center;
-  gap: .8rem;
+  row-gap: 3rem;
   margin: 4vh 4vw;
 }
 
@@ -53,11 +57,10 @@ const StyledWrapper = styled.div`
 
   background-color: #fad6ff;
 
-  width: 15vw;
+  width: 80%;
   border-radius: 1.25rem;
   gap: .5rem;
   min-height: 35vh;
-
 }
 
 .product-img {
@@ -73,7 +76,6 @@ const StyledWrapper = styled.div`
 .product-card-infos {
   display: flex;
   flex-direction: column;
-  gap: .3rem;
 }
 
 .product-card-infos>h2 {
@@ -82,6 +84,13 @@ const StyledWrapper = styled.div`
   font-weight: 400;
   line-height: normal;
   text-transform: capitalize;
+}
+
+.dimensions {
+  color:rgb(141, 141, 141);
+  text-align: center;
+  font-size: 12px;
+  padding-bottom: .5rem;
 }
 
 span {

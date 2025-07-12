@@ -18,6 +18,8 @@ function AddProduct() {
         name: Yup.string().max(30, 'O nome precisa ter no máximo 30 caracteres!').required("O campo de nome precisa ser preenchido!"),
         value: Yup.number().required('O valor do produto precisa ser preenchido!'),
         height: Yup.number(),
+        width: Yup.number(),
+        weight: Yup.number(),
         available: Yup.bool(),
         description: Yup.string().max(200, 'A descrição precisa ter no máximo 200 caracteres!')
     })
@@ -53,13 +55,31 @@ function AddProduct() {
                         placeholder='Digite aqui o valor do produto que deseja cadastrar'
                     />
 
-                    <label>Tamanho do produto:</label>
+                    <label>Altura do produto:</label>
                     <ErrorMessage name='height' component='span' />
                     <Field
                         autocomplete='off'
                         id='inputAddProduct'
                         name='height'
-                        placeholder='Digite aqui o tamanho (em cm) do produto que deseja cadastrar'
+                        placeholder='Digite aqui a altura (em cm) do produto que deseja cadastrar'
+                    />
+
+                    <label>Largura do produto:</label>
+                    <ErrorMessage name='width' component='span' />
+                    <Field
+                        autocomplete='off'
+                        id='inputAddProduct'
+                        name='width'
+                        placeholder='Digite aqui a largura (em cm) do produto que deseja cadastrar'
+                    />
+
+                    <label>Peso do produto:</label>
+                    <ErrorMessage name='weight' component='span' />
+                    <Field
+                        autocomplete='off'
+                        id='inputAddProduct'
+                        name='weight'
+                        placeholder='Digite aqui o peso (em g) do produto que deseja cadastrar'
                     />
 
                     <label>Disponibilidade:</label>
