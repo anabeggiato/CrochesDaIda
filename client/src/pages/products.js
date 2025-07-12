@@ -6,51 +6,43 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import NavSup from '../components/navSup'
-import NavInf from '../components/navInf'
 import Footer from '../components/footer'
 
 function Products() {
-    const [listOfProducts, setListOfProducts] = useState([]);
-    let navigate = useNavigate();
+  const [listOfProducts, setListOfProducts] = useState([]);
+  let navigate = useNavigate();
 
-    useEffect(() => {
-        axios.get('http://localhost:3001/produtos').then((response) => {
-            setListOfProducts(response.data)
-        })
-    }, [])
+  useEffect(() => {
+    axios.get('http://localhost:3001/produtos').then((response) => {
+      setListOfProducts(response.data)
+    })
+  }, [])
 
-    return (
-        <StyledWrapper>
-            <NavSup />
-            <NavInf />
-            <div className='products'>
-                {listOfProducts.map((value, key) => {
-                    return <div className='product' onClick={() => {navigate(`/produto/${value.id}`)}} >
-                        <div className='product-img'></div>
-                        <div className='product-card-infos'>
-                            <h2>{value.name}</h2>
-                            <div className='valores'>
-                                <span>R${value.value},00</span>
-                                <p>ou em até 00x de R$00,00</p>
-                            </div>
-                        </div>
-                    </div>
-                })}
+  return (
+    <StyledWrapper>
+      <NavSup />
+      <div className='products'>
+        {listOfProducts.map((value, key) => {
+          return <div className='product' >
+            <div className='product-img'></div>
+            <div className='product-card-infos'>
+              <h2>{value.name}</h2>
+              <span>R${value.value},00</span>
+
             </div>
-
-            <Footer />
-        </StyledWrapper>
-    )
+          </div>
+        })}
+      </div>
+    </StyledWrapper>
+  )
 }
 
 const StyledWrapper = styled.div`
 .products {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  justify-items: center;
   gap: .8rem;
-
   margin: 4vh 4vw;
 }
 
@@ -62,16 +54,10 @@ const StyledWrapper = styled.div`
   background-color: #fad6ff;
 
   width: 15vw;
-  height: 43vh;
   border-radius: 1.25rem;
-
   gap: .5rem;
+  min-height: 35vh;
 
-}
-
-.product:hover {
-  width: 16vw;
-  height: 45vh;
 }
 
 .product-img {
@@ -88,8 +74,6 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: .3rem;
-
-  height: 30%;
 }
 
 .product-card-infos>h2 {
@@ -100,25 +84,11 @@ const StyledWrapper = styled.div`
   text-transform: capitalize;
 }
 
-.valores {
-  display: flex;
-  flex-direction: column;
-}
-
-.valores>span {
+span {
   color: #860194;
   text-align: center;
   font-size: 16px;
   font-weight: 600;
-  line-height: normal;
-}
-
-.valores>p {
-  color: #868686;
-  text-align: center;
-  font-size: 12px;
-  font-style: italic;
-  font-weight: 400;
   line-height: normal;
 }`
 
