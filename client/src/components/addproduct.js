@@ -14,7 +14,6 @@ function AddProduct() {
         height: '',
         width: '',
         weight: '',
-        available: '',
         description: ''
     }
 
