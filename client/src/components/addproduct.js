@@ -106,15 +106,6 @@ function AddProduct() {
                         placeholder='Digite aqui o peso (em g) do produto que deseja cadastrar'
                     />
 
-                    <label>Disponibilidade:</label>
-                    <ErrorMessage name='available' component='span' />
-                    <Field
-                        autocomplete='off'
-                        id='inputAddProduct'
-                        name='available'
-                        placeholder='digite ´true´ para disponivel e ´false´ para indisponível'
-                    />
-
                     <label>Descrição:</label>
                     <ErrorMessage name='description' component='span' />
                     <Field
