@@ -41,7 +41,7 @@ function AddProduct() {
             formData.append('image', imageFile);
         }
 
-        axios.post('http://localhost:3001/admin/produtos', formData, {
+        axios.post(`${process.env.REACT_APP_API_URL}/produtos`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

@@ -11,7 +11,7 @@ function Products() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:3001/produtos').then((response) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/produtos`).then((response) => {
       setListOfProducts(response.data)
     })
   }, [])
