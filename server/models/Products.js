@@ -15,10 +15,20 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
         },
 
+        width: {
+            type: DataTypes.FLOAT,
+            allowNull: true
+        },
+
         available: {
             type: DataTypes.BOOLEAN,
             allowNull: true,
             default: true,
+        },
+
+        weight: {
+            type: DataTypes.FLOAT,
+            allowNull: true
         },
 
         description: {
