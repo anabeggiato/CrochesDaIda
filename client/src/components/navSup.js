@@ -16,18 +16,14 @@ function NavSup() {
 const StyledWrapper = styled.div`
 .navbar-top {
   color: #FFF;
-  width: 100%;
+  width: 100vw;
   background-color: #C514DB;
-  padding: 1.5rem;
-  text-align: center
+  padding: 1rem 0;
+  text-align: center;
 }
 
 .navbar-top span {
   color: #FFF;
-}
-
-.logo-mobile {
-  display: none;
 }`
 
 export default NavSup
