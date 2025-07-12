@@ -133,7 +133,7 @@ function AddProduct() {
 
 
                     <button type="submit">Cadastrar Produto</button>
-                    <Link to='/produtos' className='link'>Ver produtos já cadastrados</Link>
+                    <Link to='/' className='link'>Ver produtos já cadastrados</Link>
                 </Form>
 
 

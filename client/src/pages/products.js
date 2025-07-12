@@ -2,41 +2,49 @@ import '../App.css'
 import styled from 'styled-components'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import NavSup from '../components/navSup'
 
 function Products() {
   const [listOfProducts, setListOfProducts] = useState([]);
-  let navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/produtos`).then((response) => {
-      setListOfProducts(response.data)
-    })
+    axios.get(`${process.env.REACT_APP_API_URL}/produtos`)
+      .then((response) => {
+        console.log('Resposta da API:', response.data)
+        setListOfProducts(response.data)
+      })
+      .catch(err => {
+        console.error('Erro ao buscar produtos:', err)
+      })
   }, [])
+
 
   return (
     <StyledWrapper>
       <NavSup />
       <div className='products'>
-        {listOfProducts.map((value, key) => {
-          return <div className='product' >
-            <div className='product-img'>
-              <img src={value.image_url} alt={value.name} />
-              {console.log(value.image_url)}
-            </div>
-            <div className='product-card-infos'>
-              <h2>{value.name}</h2>
-              <span>R${value.value},00</span>
-              <div className='dimensions'>
-                <p>{value.height}cm x {value.width}cm</p>
-                <p>{value.weight}g</p>
+        {Array.isArray(listOfProducts) ? (
+          listOfProducts.map((value, key) => (
+            <div className='product' key={value.id || key}>
+              <div className='product-img'>
+                <img src={value.image_url} alt={value.name} />
+                {console.log(value.image_url)}
               </div>
-
+              <div className='product-card-infos'>
+                <h2>{value.name}</h2>
+                <span>R${value.value},00</span>
+                <div className='dimensions'>
+                  <p>{value.height}cm x {value.width}cm</p>
+                  <p>{value.weight}g</p>
+                </div>
+              </div>
             </div>
-          </div>
-        })}
+          ))
+        ) : (
+          <p>Carregando produtos ou resposta inválida</p>
+        )}
+
       </div>
     </StyledWrapper>
   )
