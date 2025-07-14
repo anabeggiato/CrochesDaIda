@@ -114,6 +114,18 @@ function AddProduct() {
                         placeholder='Adicione uma pequena descrição ao produto'
                     />
 
+                    <label>Categoria:</label>
+                    <ErrorMessage name='category' component='span' />
+                    <Field 
+                    as="select" 
+                    id="category" 
+                    name="category"
+                    placeholder="Selecione a categoria do produto">
+                        <option value="">Selecione...</option>
+                        <option value="amigurumi">Amigurumi</option>
+                        <option value="others">Outros</option>
+                    </Field>
+
                     <label>Imagem do produto:</label>
                     <input
                         type="file"
