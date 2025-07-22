@@ -2,22 +2,28 @@ import '../App.css'
 import styled from 'styled-components'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom' 
 
 import NavSup from '../components/navSup'
 
 function Products() {
   const [listOfProducts, setListOfProducts] = useState([]);
+  let navigate = useNavigate();
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/`)
       .then((response) => {
         console.log('Resposta da API:', response.data)
-        setListOfProducts(response.data)
+        setListOfProducts(response.data.sort((a, b) => a.name.localeCompare(b.name)))
       })
       .catch(err => {
         console.error('Erro ao buscar produtos:', err)
       })
   }, [])
+
+  const getProduct = (id) => {
+    navigate(`/produto/${id}`)
+  }
 
 
   return (
@@ -26,10 +32,9 @@ function Products() {
       <div className='products'>
         {Array.isArray(listOfProducts) ? (
           listOfProducts.map((value, key) => (
-            <div className='product' key={value.id || key}>
+            <div className='product' key={value.id || key} onClick={() => getProduct(value.id)}>
               <div className='product-img'>
                 <img src={value.image_url} alt={value.name} />
-                {console.log(value.image_url)}
               </div>
               <div className='product-card-infos'>
                 <h2>{value.name}</h2>
@@ -69,6 +74,10 @@ const StyledWrapper = styled.div`
   width: 80%;
   border-radius: 1.25rem;
   gap: .5rem;
+}
+
+.product:hover {
+  cursor: pointer;
 }
 
 .product-img {

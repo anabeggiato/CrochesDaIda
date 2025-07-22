@@ -12,11 +12,12 @@ router.get('/', async(req, res) => {
     res.json(listOfProducts);
 });
 
-// router.get('/byId/:id', async (req, res) => {
-//     const id = req.params.id
-//     const product = await Products.findByPk(id)
-//     res.json(product);
-// })
+//rota GET produto por id
+router.get('/produto/:id', async (req, res) => {
+    const id = req.params.id
+    const product = await Products.findByPk(id)
+    res.json(product);
+})
 
 // POST /produtos com imagem
 router.post('/produtos', upload.single('image'), async (req, res) => {
