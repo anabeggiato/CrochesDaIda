@@ -1,0 +1,89 @@
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import styled from 'styled-components';
+import { MdOutlineEdit } from "react-icons/md";
+
+export default function AdminProducts() {
+    const [listOfProducts, setListOfProducts] = useState([]);
+    let navigate = useNavigate();
+
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_API_URL}/`)
+            .then((response) => {
+                console.log('Resposta da API:', response.data)
+                setListOfProducts(response.data.sort((a, b) => a.name.localeCompare(b.name)))
+            })
+            .catch(err => {
+                console.error('Erro ao buscar produtos:', err)
+            })
+    }, [])
+    return (
+        <TablePage>
+
+            <Link to='/admin' className='link'>Voltar</Link>
+            <table>
+                <tr>
+                    <th>Produto</th>
+                    <th>Preço</th>
+                    <th>Altura</th>
+                    <th>Largura</th>
+                    <th>Peso</th>
+                    <th></th>
+                </tr>
+                {listOfProducts.map((value, key) => (
+                    <tr key={key}>
+                        <td className='content'>{value.name}</td>
+                        <td className='content'>R${value.value},00</td>
+                        <td className='content'>{value.height}cm</td>
+                        <td className='content'>{value.width}cm</td>
+                        <td className='content'>{value.weight}g</td>
+                        <td><MdOutlineEdit /></td>
+                    </tr>
+                ))}
+            </table>
+        </TablePage>
+    )
+}
+
+
+const TablePage = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 0;
+    text-align: right;
+
+    svg:hover {
+        cursor: pointer;
+    }
+
+    table {
+        border-collapse: collapse;
+        text-align: left;
+        width: 80%;
+    }
+
+    th, td {
+        padding: 1rem;
+    }
+
+    th {
+        background-color: rgba(239, 110, 255, 0.30);
+        font-weight: 600;
+    }
+
+    tr:nth-child(even) td {
+        background-color: rgba(239, 110, 255, 0.10);
+
+
+    tr:nth-child(odd) td {
+        background-color: transparent;
+    }
+
+    td.content {
+        font-weight: 200;
+        border-bottom: 1px solid #ccc;
+    }
+`;
+

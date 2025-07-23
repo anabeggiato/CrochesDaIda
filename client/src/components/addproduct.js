@@ -135,7 +135,8 @@ function AddProduct() {
 
 
                     <button type="submit">Cadastrar Produto</button>
-                    <Link to='/' className='link'>Ver produtos já cadastrados</Link>
+                    <Link to='/admin/produtos' className='link'>Ver tabela de produtos já cadastrados</Link>
+                    <Link to='/' className='link'>Voltar ao catálogo</Link>
                 </Form>
 
 
