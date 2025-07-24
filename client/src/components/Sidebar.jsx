@@ -1,10 +1,13 @@
 import styled from 'styled-components'
 import { FaTimes } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 
 export default function Sidebar({ active, selectedCategory, setSelectedCategory }) {
     const closeSidebar = () => {
         active(false)
     }
+
+    let navigate = useNavigate();
 
     return (
         <Container sidebar={active}>
@@ -28,7 +31,9 @@ export default function Sidebar({ active, selectedCategory, setSelectedCategory 
                 >
                     Outros Produtos
                 </Category>
-                <Category selected={false}>Contato</Category>
+                <Category onClick={() => {
+                    navigate('/contato')
+                }}>Contato</Category>
             </Content>
         </Container>
     )

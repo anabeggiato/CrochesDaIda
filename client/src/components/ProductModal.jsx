@@ -27,7 +27,7 @@ const Popup = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(128, 128, 128, 0.5);
+  background-color: rgba(128, 128, 128, 0.7);
   width: 100vw;
   height: 100vh;
 

@@ -29,6 +29,7 @@ export default function AdminProducts() {
                     <th>Altura</th>
                     <th>Largura</th>
                     <th>Peso</th>
+                    <th>Categoria</th>
                     <th></th>
                 </tr>
                 {listOfProducts.map((value, key) => (
@@ -38,6 +39,7 @@ export default function AdminProducts() {
                         <td className='content'>{value.height}cm</td>
                         <td className='content'>{value.width}cm</td>
                         <td className='content'>{value.weight}g</td>
+                        <td className='content'>{value.category}</td>
                         <td><MdOutlineEdit /></td>
                     </tr>
                 ))}
