@@ -5,10 +5,13 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Header from '../components/Header'
+import ProductModal from '../components/ProductModal'
 
 function Products() {
   const [listOfProducts, setListOfProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('all')
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null); 
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -22,13 +25,15 @@ function Products() {
       })
   }, [])
 
-  const getProduct = (id) => {
-    navigate(`/produto/${id}`)
+  const openProductModal = (id) => {
+    const product = listOfProducts.find(product => product.id === id);
+    setSelectedProduct(product); 
+    setIsModalOpen(true);
   }
 
   return (
     <StyledWrapper>
-      <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>
+      <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
       <div className='products'>
         {listOfProducts
         .filter(product => {
@@ -37,7 +42,7 @@ function Products() {
           else return product.category === 'others';
         })
         .map((value, key) => (
-            <div className='product' key={value.id || key} onClick={() => getProduct(value.id)}>
+            <div className='product' key={value.id || key} onClick={() => openProductModal(value.id)}>
               <div className='product-img'>
                 <img src={value.image_url} alt={value.name} />
               </div>
@@ -54,6 +59,13 @@ function Products() {
         }
 
       </div>
+
+      {isModalOpen && selectedProduct && (
+        <ProductModal
+          product={selectedProduct}
+          closeModal={() => setIsModalOpen(false)}
+        />
+      )}
     </StyledWrapper>
   )
 }
@@ -104,7 +116,7 @@ const StyledWrapper = styled.div`
   align-items: center;
 }
 
-.product-card-infos>h2 {
+h2 {
   text-align: center;
   font-size: 16px;
   font-weight: 400;
