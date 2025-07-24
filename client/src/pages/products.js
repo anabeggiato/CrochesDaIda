@@ -2,12 +2,13 @@ import '../App.css'
 import styled from 'styled-components'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom' 
+import { useNavigate } from 'react-router-dom'
 
-import NavSup from '../components/navSup'
+import Header from '../components/Header'
 
 function Products() {
   const [listOfProducts, setListOfProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('all')
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -25,13 +26,17 @@ function Products() {
     navigate(`/produto/${id}`)
   }
 
-
   return (
     <StyledWrapper>
-      <NavSup />
+      <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>
       <div className='products'>
-        {Array.isArray(listOfProducts) ? (
-          listOfProducts.map((value, key) => (
+        {listOfProducts
+        .filter(product => {
+          if (selectedCategory === 'all') return true;
+          if (selectedCategory === 'amigurumi') return product.category === 'amigurumi';
+          else return product.category === 'others';
+        })
+        .map((value, key) => (
             <div className='product' key={value.id || key} onClick={() => getProduct(value.id)}>
               <div className='product-img'>
                 <img src={value.image_url} alt={value.name} />
@@ -41,14 +46,12 @@ function Products() {
                 <span>R${value.value},00</span>
                 <div className='dimensions'>
                   <p>{value.height}cm x {value.width}cm</p>
-                  <p>{value.weight}g</p>
+                  {value.category === 'amigurumi' ? <p>{value.weight}g</p> : <></>}
                 </div>
               </div>
             </div>
           ))
-        ) : (
-          <p>Carregando produtos ou resposta inválida</p>
-        )}
+        }
 
       </div>
     </StyledWrapper>
@@ -72,7 +75,7 @@ const StyledWrapper = styled.div`
   background-color: #fad6ff;
 
   width: 80%;
-  border-radius: 1.25rem;
+  border-radius: 20px;
   gap: .5rem;
 }
 
@@ -83,14 +86,15 @@ const StyledWrapper = styled.div`
 .product-img {
   width: 90%;
   height: 70%;
+  max-height: 250px;
   margin-top: 2vh;
-  border-radius: 1.25rem;
+  border-radius: 20px;
 }
 
 .product-img img {
   width: 100%;
   height: 100%;
-  border-radius: 1.25rem;
+  border-radius: 20px;
   max-height: 220px;
 }
 
@@ -134,6 +138,10 @@ span {
   .products {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  .product-img {
+    max-height: 160px;
   }
 }
 
