@@ -2,7 +2,6 @@ import '../App.css'
 import styled from 'styled-components'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import Header from '../components/Header'
 import ProductModal from '../components/ProductModal'
@@ -12,7 +11,6 @@ function Products() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null); 
-  let navigate = useNavigate();
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/`)
