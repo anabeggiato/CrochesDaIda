@@ -11,9 +11,9 @@ function AddProduct() {
     const initialValues = {
         name: '',
         value: '',
-        height: '',
-        width: '',
-        weight: '',
+        height: 0,
+        width: 0,
+        weight: 0,
         description: ''
     }
 
