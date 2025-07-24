@@ -20,12 +20,16 @@ export default function Header({ selectedCategory, setSelectedCategory }) {
 }
 
 const Container = styled.div`
-    position: relative;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    right: 0;
     height: 100px;
     background-color: #C514DB;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 99; 
 
     > svg {
         position: absolute;
@@ -47,4 +51,4 @@ const Container = styled.div`
             height: 60px;
         }
     }
-`
+`;

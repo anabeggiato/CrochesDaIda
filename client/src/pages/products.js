@@ -74,7 +74,7 @@ const StyledWrapper = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   justify-items: center;
   row-gap: 3rem;
-  margin: 4vh 4vw;
+  margin: calc(100px + 4vh) 4vw 4vh 4vw;
 }
 
 .product {
@@ -175,7 +175,7 @@ span {
 
 @media (max-width: 480px) {
   .products {
-    margin: 2vh 1vw;
+    margin: calc(100px + 2vh) 1vw 2vh 1vw;
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
