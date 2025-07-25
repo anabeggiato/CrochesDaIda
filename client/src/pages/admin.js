@@ -1,13 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
 import AddProduct from '../components/addproduct'
+import { useNavigate } from 'react-router-dom';
 
 function Admin() {
-    return (
-        <StyledWrapper>
-            <AddProduct />
-        </StyledWrapper>
-    )
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+  return (
+    <StyledWrapper>
+      <AddProduct />
+      <button onClick={handleLogout}>Sair</button>
+    </StyledWrapper>
+  )
 }
 
 const StyledWrapper = styled.div`

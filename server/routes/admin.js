@@ -1,14 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const upload = multer(); // memória (buffer)
-
+const upload = multer(); // buffer de imagem
 const { Products, Events } = require('../models');
-const supabase = require('../utils/supabase'); // client supabase configurado
+const supabase = require('../utils/supabase');
 const { v4: uuidv4 } = require('uuid');
 
-// POST /produtos com imagem
-router.post('/produtos', upload.single('image'), async (req, res) => {
+const verifyToken = require('../middleware/verifyToken'); // importa o middleware
+
+// Rota protegida: POST /produtos
+router.post('/produtos', verifyToken, upload.single('image'), async (req, res) => {
     try {
         const productData = req.body;
         let imageUrl = null;
@@ -18,9 +19,9 @@ router.post('/produtos', upload.single('image'), async (req, res) => {
             const fileName = `${uuidv4()}.${fileExt}`;
 
             const { data, error } = await supabase.storage
-                .from('products') // nome do bucket
+                .from('products')
                 .upload(fileName, req.file.buffer, {
-                    contentType: req.file.mimetype
+                    contentType: req.file.mimetype,
                 });
 
             if (error) {
@@ -38,7 +39,7 @@ router.post('/produtos', upload.single('image'), async (req, res) => {
 
         const newProduct = await Products.create({
             ...productData,
-            image_url: imageUrl
+            image_url: imageUrl,
         });
 
         res.status(201).json(newProduct);
@@ -48,12 +49,12 @@ router.post('/produtos', upload.single('image'), async (req, res) => {
     }
 });
 
-// POST /eventos (sem imagem)
-router.post('/eventos', async (req, res) => {
+// Rota protegida: POST /eventos
+router.post('/eventos', verifyToken, async (req, res) => {
     try {
         const event = req.body;
         const newEvent = await Events.create(event);
-        res.json(newEvent);
+        res.status(201).json(newEvent);
     } catch (err) {
         console.error('Erro ao criar evento:', err);
         res.status(500).json({ error: 'Erro ao criar evento' });

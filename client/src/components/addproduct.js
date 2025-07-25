@@ -42,6 +42,7 @@ function AddProduct() {
 
         axios.post(`${process.env.REACT_APP_API_URL}/produtos`, formData, {
             headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'multipart/form-data'
             }
         })
@@ -116,11 +117,11 @@ function AddProduct() {
 
                     <label>Categoria:</label>
                     <ErrorMessage name='category' component='span' />
-                    <Field 
-                    as="select" 
-                    id="category" 
-                    name="category"
-                    placeholder="Selecione a categoria do produto">
+                    <Field
+                        as="select"
+                        id="category"
+                        name="category"
+                        placeholder="Selecione a categoria do produto">
                         <option value="">Selecione...</option>
                         <option value="amigurumi">Amigurumi</option>
                         <option value="others">Outros</option>
