@@ -14,19 +14,19 @@ export default function Sidebar({ active, selectedCategory, setSelectedCategory 
             <FaTimes onClick={closeSidebar} />
             <Content>
                 <Category
-                    onClick={() => setSelectedCategory('all')}
+                    onClick={() => { setSelectedCategory('all'); navigate('/') }}
                     selected={selectedCategory === 'all'}
                 >
                     Todos
                 </Category>
                 <Category
-                    onClick={() => setSelectedCategory('amigurumi')}
+                    onClick={() => { setSelectedCategory('amigurumi'); navigate('/') }}
                     selected={selectedCategory === 'amigurumi'}
                 >
                     Amigurumis
                 </Category>
                 <Category
-                    onClick={() => setSelectedCategory('others')}
+                    onClick={() => { setSelectedCategory('others'); navigate('/') }}
                     selected={selectedCategory === 'others'}
                 >
                     Outros Produtos

@@ -69,7 +69,7 @@ const Card = styled.div`
   .dimensions {
     margin-top: 1rem;
     font-size: 16px;
-    color: black;
+    color: #6E6E6E !important;
   }
 
   > svg {
