@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const upload = multer(); // memória (buffer)
+const upload = multer(); 
+const { v4: uuidv4 } = require('uuid');
 
 const { Products, Events } = require('../models');
-const supabase = require('../utils/supabase'); // client supabase configurado
-const { v4: uuidv4 } = require('uuid');
+const supabase = require('../utils/supabase'); 
+const authMiddleware = require('../middlewares/authMiddleware');
+
+// Proteger todas as rotas 
+router.use(authMiddleware);
 
 // POST /produtos com imagem
 router.post('/produtos', upload.single('image'), async (req, res) => {
@@ -18,7 +22,7 @@ router.post('/produtos', upload.single('image'), async (req, res) => {
             const fileName = `${uuidv4()}.${fileExt}`;
 
             const { data, error } = await supabase.storage
-                .from('products') // nome do bucket
+                .from('products')
                 .upload(fileName, req.file.buffer, {
                     contentType: req.file.mimetype
                 });

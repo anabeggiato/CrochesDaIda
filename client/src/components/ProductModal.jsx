@@ -14,7 +14,7 @@ export default function ProductModal({ product, closeModal }) {
                         <h4>Especificações:</h4>
                         <p>Altura: {product.height}cm</p>
                         <p>Largura: {product.width}cm</p>
-                        <p>Peso: {product.weight}g</p>
+                        <p>Peso: {product.weight !== 0 ? product.weight : "Indisponível no momento"}g</p>
                     </div>
                 </div>
             </Card>
@@ -69,7 +69,7 @@ const Card = styled.div`
   .dimensions {
     margin-top: 1rem;
     font-size: 16px;
-    color: black;
+    color: black !important;
   }
 
   > svg {

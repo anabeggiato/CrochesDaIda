@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors')
+require('dotenv').config()
 
 app.use(express.json())
 app.use(cors());
@@ -9,10 +10,13 @@ const db = require('./models');
 
 //Routers
 const productsRouter = require('./routes/products')
-app.use('/', productsRouter)
+app.use('/produtos', productsRouter)
 
 const adminRouter = require('./routes/admin')
 app.use('/admin', adminRouter)
+
+const authRouter = require('./routes/auth');
+app.use('/auth', authRouter);  
 
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {
