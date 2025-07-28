@@ -1,12 +1,24 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import { MdOutlineEdit } from "react-icons/md";
+import UpdateProductModal from '../components/UpdateProductModal';
 
 export default function AdminProducts() {
     const [listOfProducts, setListOfProducts] = useState([]);
-    let navigate = useNavigate();
+    const [showPopup, setShowPopup] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState();
+
+    const handlePopup = (id) => {
+        const product = listOfProducts.find(product => product.id === id);
+        setSelectedProduct(product);
+        setShowPopup(true);
+    }
+
+    const closeModal = () => {
+        setShowPopup(false);
+    }
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/`)
@@ -40,9 +52,11 @@ export default function AdminProducts() {
                         <td className='content'>{value.width}cm</td>
                         <td className='content'>{value.weight}g</td>
                         <td className='content'>{value.category}</td>
-                        <td><MdOutlineEdit /></td>
+                        <td><MdOutlineEdit onClick={() => handlePopup(value.id)} /></td>
                     </tr>
                 ))}
+
+                {showPopup && <UpdateProductModal product={selectedProduct} closeModal={closeModal}/>}
             </table>
         </TablePage>
     )
