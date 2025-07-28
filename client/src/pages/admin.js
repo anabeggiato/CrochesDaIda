@@ -3,11 +3,12 @@ import styled from 'styled-components'
 import AddProduct from '../components/addproduct'
 
 function Admin() {
-    return (
-        <StyledWrapper>
-            <AddProduct />
-        </StyledWrapper>
-    )
+  
+  return (
+    <StyledWrapper>
+      <AddProduct />
+    </StyledWrapper>
+  )
 }
 
 const StyledWrapper = styled.div`

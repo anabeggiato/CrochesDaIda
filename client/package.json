@@ -9,6 +9,7 @@
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.0",
     "formik": "^2.4.6",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.503.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
