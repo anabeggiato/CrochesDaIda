@@ -41,7 +41,7 @@ export default function UpdateProductModal({ product, closeModal }) {
       formData.append('image', imageFile);
     }
 
-    axios.put(`http://localhost:3001/admin/produto/update/${product.id}`, formData, {
+    axios.put(`${process.env.REACT_APP_API_URL}/admin/produto/update/${product.id}`, formData, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       }

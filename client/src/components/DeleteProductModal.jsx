@@ -4,7 +4,7 @@ import styled from 'styled-components'
 export default function DeleteProductModal({ product, closeModal }) {
 
     const deleteProduct = () => {
-        axios.delete(`http://localhost:3001/admin/produto/delete/${product.id}`, {
+        axios.delete(`${process.env.REACT_APP_API_URL}/admin/produto/delete/${product.id}`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }

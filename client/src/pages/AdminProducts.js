@@ -8,10 +8,6 @@ import { IoFilter } from "react-icons/io5";
 import UpdateProductModal from '../components/UpdateProductModal';
 import DeleteProductModal from '../components/DeleteProductModal';
 
-const menuItemStyle = {
-};
-
-
 
 export default function AdminProducts() {
     const [listOfProducts, setListOfProducts] = useState([]);
