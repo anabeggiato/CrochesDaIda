@@ -93,6 +93,16 @@ router.put('/produto/update/:id', verifyToken, upload.single('image'), async (re
     }
 });
 
+// Rota DELETE /produto/delete/:id
+router.delete('/produto/delete/:id', async(req, res) => {
+    const id = req.params.id;
+
+    const product = await Products.findByPk(id);
+
+    await product.destroy();
+    res.json({message: `Produto ${id} deletado com sucesso!`})
+})
+
 // Rota protegida: POST /eventos
 router.post('/eventos', verifyToken, async (req, res) => {
     try {

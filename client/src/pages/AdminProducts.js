@@ -3,14 +3,17 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import { MdOutlineEdit } from "react-icons/md";
+import { BsTrash } from "react-icons/bs";
 import UpdateProductModal from '../components/UpdateProductModal';
+import DeleteProductModal from '../components/DeleteProductModal';
 
 export default function AdminProducts() {
     const [listOfProducts, setListOfProducts] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState();
+    const [confirmDeletion, setConfirmDeletion] = useState(false);
 
-    const handlePopup = (id) => {
+    const handleEditPopup = (id) => {
         const product = listOfProducts.find(product => product.id === id);
         setSelectedProduct(product);
         setShowPopup(true);
@@ -18,6 +21,17 @@ export default function AdminProducts() {
 
     const closeModal = () => {
         setShowPopup(false);
+    }
+
+    const handleDeletePopup = (id) => {
+        const product = listOfProducts.find(product => product.id === id);
+        setSelectedProduct(product);
+        setConfirmDeletion(true);
+    }
+
+
+    const closeConfirmDeletion = () => {
+        setConfirmDeletion(false);
     }
 
     useEffect(() => {
@@ -43,6 +57,7 @@ export default function AdminProducts() {
                     <th>Peso</th>
                     <th>Categoria</th>
                     <th></th>
+                    <th></th>
                 </tr>
                 {listOfProducts.map((value, key) => (
                     <tr key={key}>
@@ -52,11 +67,13 @@ export default function AdminProducts() {
                         <td className='content'>{value.width}cm</td>
                         <td className='content'>{value.weight}g</td>
                         <td className='content'>{value.category}</td>
-                        <td><MdOutlineEdit onClick={() => handlePopup(value.id)} /></td>
+                        <td><MdOutlineEdit onClick={() => handleEditPopup(value.id)} /></td>
+                        <td><BsTrash onClick={() => handleDeletePopup(value.id)} /></td>
                     </tr>
                 ))}
 
                 {showPopup && <UpdateProductModal product={selectedProduct} closeModal={closeModal}/>}
+                {confirmDeletion && <DeleteProductModal product={selectedProduct} closeModal={closeConfirmDeletion} />}
             </table>
         </TablePage>
     )
