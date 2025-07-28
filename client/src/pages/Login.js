@@ -79,9 +79,10 @@ const LoginContainer = styled.div`
   transform: translate(-50%, -50%);
   background-color: rgb(250, 214, 255);
 
-  padding: 7rem;
+  padding: 5rem;
   border-radius: 30px;
   box-shadow: 5px 16px 20px rgb(159, 0, 180);
+  width: 30%;
 
   h2 {
     margin-bottom: 1rem;
@@ -105,6 +106,11 @@ const LoginContainer = styled.div`
     border: none;
     border-radius: 10px;
     padding-left: .5rem;
+  }
+
+  @media (max-width: 500px) {
+    width: 60%;
+    padding: 2.5rem;
   }
 
 `
