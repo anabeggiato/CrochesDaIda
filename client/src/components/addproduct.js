@@ -3,6 +3,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom';
 
 function AddProduct() {
 
@@ -55,8 +57,14 @@ function AddProduct() {
             })
     }
 
+    const navigate = useNavigate();
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
+    };
+
     return (
-        <div>
+        <AddProductContainer>
             <Formik initialValues={initialValues} onSubmit={onsubmit} validationSchema={validationSchema}>
                 <Form className='addProductPage'>
                     <h2> Adição de novos produtos</h2>
@@ -135,15 +143,74 @@ function AddProduct() {
                     />
 
 
-                    <button type="submit">Cadastrar Produto</button>
-                    <Link to='/admin/produtos' className='link'>Ver tabela de produtos já cadastrados</Link>
-                    <Link to='/' className='link'>Voltar ao catálogo</Link>
+                    <div className='actions'>
+                        <button type="submit">Cadastrar Produto</button>
+                        <button onClick={handleLogout}>Sair</button>
+                        <Link to='/admin/produtos' className='link'>Ver tabela de produtos já cadastrados</Link>
+                        <Link to='/' className='link'>Voltar ao catálogo</Link>
+                    </div>
                 </Form>
 
 
             </Formik>
-        </div>
+        </AddProductContainer>
     )
 }
+
+const AddProductContainer = styled.div`
+    width: 60%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(250, 214, 255);
+    border-radius: 30px;
+
+    h2 {
+        width: 100%;
+        text-align: center;
+        color: #860194;
+    }
+
+    .actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    button {
+        width: 50%;
+        border: none;
+        padding: .5rem 0;
+        border-radius: 15px;
+        background-color: #C514DB;
+        color: #fff;
+        margin-top: 1rem;
+    }
+
+    button:hover {
+        cursor: pointer;
+        background-color: #860194;
+    }
+
+    input, select {
+        border: none;
+        border-radius: 10px;
+        padding-left: .5rem;
+    }
+
+    select {
+        background-color: #fff;
+    }
+
+    option {
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    @media (max-width: 900px) {
+        width: 90%;
+    }
+`
 
 export default AddProduct
