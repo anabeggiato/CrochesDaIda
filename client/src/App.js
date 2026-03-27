@@ -1,10 +1,10 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Products from './pages/products';
-import Admin from './pages/admin';
-import AdminProducts from './pages/AdminProducts';
-import Contact from './pages/Contact';
-import Login from './pages/Login'; // caso ainda não tenha adicionado
+import ProductsPage from './pages/ProductsPage';
+import AdminPage from './pages/AdminPage';
+import AdminProductsPage from './pages/AdminProductsPage';
+import ContactPage from './pages/ContactPage';
+import LoginPage from './pages/LoginPage';
 import PrivateRoute from './components/PrivateRoute'; // seu componente de proteção
 
 function App() {
@@ -12,16 +12,16 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path='/' element={<Products />} />
-          <Route path='/contato' element={<Contact />} />
-          <Route path='/login' element={<Login />} />
+          <Route path='/' element={<ProductsPage />} />
+          <Route path='/contato' element={<ContactPage />} />
+          <Route path='/login' element={<LoginPage />} />
 
           {/* Rotas protegidas */}
           <Route 
             path='/admin' 
             element={
               <PrivateRoute>
-                <Admin />
+                <AdminPage />
               </PrivateRoute>
             } 
           />
@@ -29,7 +29,7 @@ function App() {
             path='/admin/produtos' 
             element={
               <PrivateRoute>
-                <AdminProducts />
+                <AdminProductsPage />
               </PrivateRoute>
             } 
           />

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FaInstagram} from "react-icons/fa";
 import { SiGmail } from "react-icons/si";
 
-export default function Contact() {
+export default function ContactPage() {
     const [selectedCategory, setSelectedCategory] = useState('all');
 
     function handleSubmit(event) {
@@ -22,7 +22,7 @@ export default function Contact() {
     }
 
     return (
-        <ContactPage>
+        <ContactPageWrapper>
             <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
             <h1>Entre em contato conosco</h1>
             <form onSubmit={handleSubmit}>
@@ -55,11 +55,11 @@ export default function Contact() {
                 </a>
 
             </div>
-        </ContactPage>
+        </ContactPageWrapper>
     )
 }
 
-const ContactPage = styled.div`
+const ContactPageWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;

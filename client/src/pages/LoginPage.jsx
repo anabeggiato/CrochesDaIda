@@ -1,10 +1,10 @@
 // src/pages/Login.jsx
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
+import { loginUser } from '../services/authService';
 
-function Login() {
+function LoginPage() {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
@@ -15,12 +15,12 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, {
+      const response = await loginUser({
         username,
         password
       });
 
-      const { token } = response.data;
+      const { token } = response;
       localStorage.setItem('token', token);
 
       navigate('/admin');
@@ -32,7 +32,7 @@ function Login() {
   };
 
   return (
-    <LoginPage>
+    <LoginPageWrapper>
       <LoginContainer>
         <h2>Login</h2>
         <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -59,11 +59,11 @@ function Login() {
 
         {mensagemErro && <p style={{ color: 'red' }}>{mensagemErro}</p>}
       </LoginContainer>
-    </LoginPage>
+    </LoginPageWrapper>
   );
 }
 
-const LoginPage = styled.div`
+const LoginPageWrapper = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: #C514DB;
@@ -115,5 +115,4 @@ const LoginContainer = styled.div`
 
 `
 
-export default Login;
-
+export default LoginPage;

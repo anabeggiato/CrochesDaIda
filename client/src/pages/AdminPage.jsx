@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import AddProduct from '../components/addproduct'
+import AddProduct from '../components/AddProduct'
 
-function Admin() {
+function AdminPage() {
   
-  return (
-    <StyledWrapper>
+    return (
+        <StyledWrapper>
       <AddProduct />
-    </StyledWrapper>
-  )
+        </StyledWrapper>
+    )
 }
 
 const StyledWrapper = styled.div`
@@ -30,4 +30,4 @@ const StyledWrapper = styled.div`
 }
 `
 
-export default Admin
+export default AdminPage
