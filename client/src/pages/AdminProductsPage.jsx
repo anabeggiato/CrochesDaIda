@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { MdOutlineEdit } from 'react-icons/md';
 import { BsTrash } from 'react-icons/bs';
 import { IoFilter } from 'react-icons/io5';
+import PageState from '../components/PageState';
 import UpdateProductModal from '../components/UpdateProductModal';
 import DeleteProductModal from '../components/DeleteProductModal';
 import useProducts from '../hooks/useProducts';
@@ -25,8 +26,13 @@ export default function AdminProductsPage() {
   );
   const [showFilter, setShowFilter] = useState(false);
   const filterRef = useRef(null);
-  const { products: listOfProducts, setProducts: setListOfProducts } =
-    useProducts();
+  const {
+    error,
+    loading,
+    products: listOfProducts,
+    refreshProducts,
+    setProducts: setListOfProducts,
+  } = useProducts();
 
   const handleEditPopup = (id) => {
     const product = listOfProducts.find((product) => product.id === id);
@@ -87,74 +93,95 @@ export default function AdminProductsPage() {
       <Link to="/admin" className="link">
         Voltar
       </Link>
-      <table>
-        <thead>
-          <tr>
-            <th>Produto</th>
-            <th>Preco</th>
-            <th>Altura</th>
-            <th>Largura</th>
-            <th>Peso</th>
-            <th ref={filterRef} style={{ position: 'relative' }}>
-              Categoria{' '}
-              <IoFilter
-                onClick={() => setShowFilter((prev) => !prev)}
-                style={{ cursor: 'pointer' }}
-              />
-              {showFilter && (
-                <FilterDropdown>
-                  {PRODUCT_CATEGORY_FILTER_OPTIONS.map((categoryOption) => (
-                    <FilterOption
-                      key={categoryOption.value}
-                      onClick={() => {
-                        setSelectedCategory(categoryOption.value);
-                        setShowFilter(false);
-                      }}
-                    >
-                      {categoryOption.label}
-                    </FilterOption>
-                  ))}
-                </FilterDropdown>
-              )}
-            </th>
-            <th aria-label="Editar"></th>
-            <th aria-label="Excluir"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredProducts.map((value) => (
-            <tr key={value.id}>
-              <td className="content">{value.name}</td>
-              <td className="content">R${value.value},00</td>
-              <td className="content">{value.height}cm</td>
-              <td className="content">{value.width}cm</td>
-              <td className="content">{value.weight}g</td>
-              <td className="content">{value.category}</td>
-              <td>
-                <MdOutlineEdit onClick={() => handleEditPopup(value.id)} />
-              </td>
-              <td>
-                <BsTrash onClick={() => handleDeletePopup(value.id)} />
-              </td>
+      {loading && (
+        <PageState
+          title="Carregando produtos"
+          description="Estamos buscando os produtos cadastrados."
+        />
+      )}
+      {!loading && error && (
+        <PageState
+          title="Não foi possível carregar a tabela"
+          description="Tente atualizar os dados novamente."
+          action={<button onClick={refreshProducts}>Tentar novamente</button>}
+        />
+      )}
+      {!loading && !error && filteredProducts.length === 0 && (
+        <PageState
+          title="Nenhum produto encontrado"
+          description="Nao ha produtos cadastrados para esse filtro."
+        />
+      )}
+      {!loading && !error && filteredProducts.length > 0 && (
+        <table>
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Preco</th>
+              <th>Altura</th>
+              <th>Largura</th>
+              <th>Peso</th>
+              <th ref={filterRef} style={{ position: 'relative' }}>
+                Categoria{' '}
+                <IoFilter
+                  onClick={() => setShowFilter((prev) => !prev)}
+                  style={{ cursor: 'pointer' }}
+                />
+                {showFilter && (
+                  <FilterDropdown>
+                    {PRODUCT_CATEGORY_FILTER_OPTIONS.map((categoryOption) => (
+                      <FilterOption
+                        key={categoryOption.value}
+                        onClick={() => {
+                          setSelectedCategory(categoryOption.value);
+                          setShowFilter(false);
+                        }}
+                      >
+                        {categoryOption.label}
+                      </FilterOption>
+                    ))}
+                  </FilterDropdown>
+                )}
+              </th>
+              <th aria-label="Editar"></th>
+              <th aria-label="Excluir"></th>
             </tr>
-          ))}
-        </tbody>
+          </thead>
+          <tbody>
+            {filteredProducts.map((value) => (
+              <tr key={value.id}>
+                <td className="content">{value.name}</td>
+                <td className="content">R${value.value},00</td>
+                <td className="content">{value.height}cm</td>
+                <td className="content">{value.width}cm</td>
+                <td className="content">{value.weight}g</td>
+                <td className="content">{value.category}</td>
+                <td>
+                  <MdOutlineEdit onClick={() => handleEditPopup(value.id)} />
+                </td>
+                <td>
+                  <BsTrash onClick={() => handleDeletePopup(value.id)} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
 
-        {showPopup && (
-          <UpdateProductModal
-            product={selectedProduct}
-            closeModal={closeModal}
-            onProductUpdated={handleProductUpdated}
-          />
-        )}
-        {confirmDeletion && (
-          <DeleteProductModal
-            product={selectedProduct}
-            closeModal={closeConfirmDeletion}
-            onProductDeleted={handleProductDeleted}
-          />
-        )}
-      </table>
+          {showPopup && (
+            <UpdateProductModal
+              product={selectedProduct}
+              closeModal={closeModal}
+              onProductUpdated={handleProductUpdated}
+            />
+          )}
+          {confirmDeletion && (
+            <DeleteProductModal
+              product={selectedProduct}
+              closeModal={closeConfirmDeletion}
+              onProductDeleted={handleProductDeleted}
+            />
+          )}
+        </table>
+      )}
     </TablePage>
   );
 }

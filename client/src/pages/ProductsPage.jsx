@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useMemo, useState } from 'react';
 
 import Header from '../components/Header';
+import PageState from '../components/PageState';
 import ProductModal from '../components/ProductModal';
 import useProducts from '../hooks/useProducts';
 import { PRODUCT_CATEGORIES } from '../constants/categories';
@@ -17,7 +18,12 @@ function ProductsPage() {
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const { products: listOfProducts } = useProducts();
+  const {
+    error,
+    loading,
+    products: listOfProducts,
+    refreshProducts,
+  } = useProducts();
 
   const filteredProducts = useMemo(
     () => filterProductsByCategory(listOfProducts, selectedCategory),
@@ -36,29 +42,50 @@ function ProductsPage() {
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
       />
-      <div className="products">
-        {filteredProducts.map((value) => (
-          <div
-            className="product"
-            key={value.id}
-            onClick={() => openProductModal(value.id)}
-          >
-            <div className="product-img">
-              <img src={value.image_url} alt={value.name} />
-            </div>
-            <div className="product-card-infos">
-              <h2>{value.name}</h2>
-              <span>R${value.value},00</span>
-              <div className="dimensions">
-                <p>
-                  {value.height}cm x {value.width}cm
-                </p>
-                {isAmigurumiProduct(value) ? <p>{value.weight}g</p> : <></>}
+      {loading && (
+        <PageState
+          title="Carregando produtos"
+          description="Estamos buscando o catálogo para você."
+        />
+      )}
+      {!loading && error && (
+        <PageState
+          title="Não foi possível carregar os produtos"
+          description="Confira a conexão com a API e tente novamente."
+          action={<button onClick={refreshProducts}>Tentar novamente</button>}
+        />
+      )}
+      {!loading && !error && filteredProducts.length === 0 && (
+        <PageState
+          title="Nenhum produto encontrado"
+          description="Ainda não há itens nessa categoria."
+        />
+      )}
+      {!loading && !error && filteredProducts.length > 0 && (
+        <div className="products">
+          {filteredProducts.map((value) => (
+            <div
+              className="product"
+              key={value.id}
+              onClick={() => openProductModal(value.id)}
+            >
+              <div className="product-img">
+                <img src={value.image_url} alt={value.name} />
+              </div>
+              <div className="product-card-infos">
+                <h2>{value.name}</h2>
+                <span>R${value.value},00</span>
+                <div className="dimensions">
+                  <p>
+                    {value.height}cm x {value.width}cm
+                  </p>
+                  {isAmigurumiProduct(value) ? <p>{value.weight}g</p> : <></>}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {isModalOpen && selectedProduct && (
         <ProductModal
