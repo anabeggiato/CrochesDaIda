@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -28,10 +29,29 @@ export default function ProductForm({
   secondaryAction,
   submitError,
   isSubmitting,
+  imageFile,
+  currentImageUrl,
 }) {
+  const [previewUrl, setPreviewUrl] = useState(currentImageUrl || null);
+
+  useEffect(() => {
+    if (!imageFile) {
+      setPreviewUrl(currentImageUrl || null);
+      return undefined;
+    }
+
+    const objectUrl = URL.createObjectURL(imageFile);
+    setPreviewUrl(objectUrl);
+
+    return () => {
+      URL.revokeObjectURL(objectUrl);
+    };
+  }, [currentImageUrl, imageFile]);
+
   return (
     <FormCard>
       <Formik
+        enableReinitialize
         initialValues={initialValues}
         onSubmit={(values, helpers) => onSubmit(values, helpers)}
         validationSchema={validationSchema}
@@ -112,6 +132,12 @@ export default function ProductForm({
 
           <label>Imagem do produto:</label>
           <input type="file" accept="image/*" onChange={onImageChange} />
+          {previewUrl && (
+            <div className="imagePreview">
+              <span>Prévia da imagem:</span>
+              <img src={previewUrl} alt="Prévia do produto" />
+            </div>
+          )}
 
           {submitError && <p className="submitError">{submitError}</p>}
 
@@ -162,6 +188,27 @@ const FormCard = styled.div`
     margin: 0.5rem 0 0;
     color: #b42318;
     font-size: 0.95rem;
+  }
+
+  .imagePreview {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .imagePreview > span {
+    font-size: 0.95rem;
+    color: #5c5c5c;
+  }
+
+  .imagePreview img {
+    width: 100%;
+    max-width: 240px;
+    max-height: 240px;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 2px solid rgba(197, 20, 219, 0.15);
   }
 
   h2 {

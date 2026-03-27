@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import ProductForm from './ProductForm';
 import { updateProduct } from '../services/productService';
+import { getProductFormValues } from '../utils/productForm';
 
 export default function UpdateProductModal({
   product,
@@ -12,15 +13,7 @@ export default function UpdateProductModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
 
-  const initialValues = {
-    name: product.name,
-    value: product.value,
-    height: product.height,
-    width: product.width,
-    weight: product.weight,
-    description: product.description,
-    category: product.category || '',
-  };
+  const initialValues = getProductFormValues(product);
 
   const handleImageChange = (event) => {
     setImageFile(event.currentTarget.files[0]);
@@ -58,6 +51,8 @@ export default function UpdateProductModal({
         submitLabel="Atualizar Produto"
         onSubmit={onsubmit}
         onImageChange={handleImageChange}
+        imageFile={imageFile}
+        currentImageUrl={product.image_url || null}
         submitError={submitError}
         isSubmitting={isSubmitting}
         secondaryAction={

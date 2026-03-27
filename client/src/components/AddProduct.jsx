@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProductForm from './ProductForm';
 import { createProduct } from '../services/productService';
+import { getEmptyProductFormValues } from '../utils/productForm';
 
 function AddProduct({ onProductCreated }) {
   const [imageFile, setImageFile] = useState(null);
@@ -9,14 +10,7 @@ function AddProduct({ onProductCreated }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
 
-  const initialValues = {
-    name: '',
-    value: '',
-    height: 0,
-    width: 0,
-    weight: 0,
-    description: '',
-  };
+  const initialValues = getEmptyProductFormValues();
 
   const handleImageChange = (event) => {
     setImageFile(event.currentTarget.files[0]);
@@ -61,6 +55,7 @@ function AddProduct({ onProductCreated }) {
       submitLabel="Cadastrar Produto"
       onSubmit={onsubmit}
       onImageChange={handleImageChange}
+      imageFile={imageFile}
       submitError={submitError}
       isSubmitting={isSubmitting}
       secondaryAction={
