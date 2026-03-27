@@ -76,6 +76,10 @@ export default function AdminProductsTable({
 
 const TableWrapper = styled.div`
   width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem;
+  box-sizing: border-box;
 
   svg:hover {
     cursor: pointer;
@@ -84,7 +88,8 @@ const TableWrapper = styled.div`
   table {
     border-collapse: collapse;
     text-align: left;
-    width: 80%;
+    width: min(1100px, 100%);
+    margin: 0 auto;
   }
 
   th,
@@ -108,6 +113,14 @@ const TableWrapper = styled.div`
   td.content {
     font-weight: 200;
     border-bottom: 1px solid #ccc;
+  }
+
+  @media (max-width: 768px) {
+    overflow-x: auto;
+
+    table {
+      min-width: 760px;
+    }
   }
 `;
 
