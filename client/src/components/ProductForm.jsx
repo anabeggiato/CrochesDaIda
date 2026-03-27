@@ -26,6 +26,8 @@ export default function ProductForm({
   onSubmit,
   onImageChange,
   secondaryAction,
+  submitError,
+  isSubmitting,
 }) {
   return (
     <FormCard>
@@ -111,8 +113,12 @@ export default function ProductForm({
           <label>Imagem do produto:</label>
           <input type="file" accept="image/*" onChange={onImageChange} />
 
+          {submitError && <p className="submitError">{submitError}</p>}
+
           <div className="actions">
-            <button type="submit">{submitLabel}</button>
+            <button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Salvando...' : submitLabel}
+            </button>
             {secondaryAction}
             <Link to="/admin/produtos" className="link">
               Ver tabela de produtos já cadastrados
@@ -152,6 +158,12 @@ const FormCard = styled.div`
     text-align: center;
   }
 
+  .submitError {
+    margin: 0.5rem 0 0;
+    color: #b42318;
+    font-size: 0.95rem;
+  }
+
   h2 {
     width: 100%;
     text-align: center;
@@ -177,6 +189,11 @@ const FormCard = styled.div`
   button:hover {
     cursor: pointer;
     background-color: #860194;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
   }
 
   input,

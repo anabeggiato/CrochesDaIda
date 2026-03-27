@@ -6,6 +6,8 @@ import { createProduct } from '../services/productService';
 function AddProduct({ onProductCreated }) {
   const [imageFile, setImageFile] = useState(null);
   const [formVersion, setFormVersion] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const initialValues = {
     name: '',
@@ -21,20 +23,28 @@ function AddProduct({ onProductCreated }) {
   };
 
   const onsubmit = async (values, { resetForm }) => {
-    createProduct(values, imageFile)
-      .then((createdProduct) => {
-        alert('Produto adicionado com sucesso!');
-        resetForm();
-        setImageFile(null);
-        setFormVersion((currentVersion) => currentVersion + 1);
+    try {
+      setIsSubmitting(true);
+      setSubmitError('');
 
-        if (onProductCreated) {
-          onProductCreated(createdProduct);
-        }
-      })
-      .catch((err) => {
-        console.error('Erro ao adicionar produto:', err);
-      });
+      const createdProduct = await createProduct(values, imageFile);
+
+      alert('Produto adicionado com sucesso!');
+      resetForm();
+      setImageFile(null);
+      setFormVersion((currentVersion) => currentVersion + 1);
+
+      if (onProductCreated) {
+        onProductCreated(createdProduct);
+      }
+    } catch (err) {
+      console.error('Erro ao adicionar produto:', err);
+      setSubmitError(
+        err.response?.data?.error || 'Não foi possível cadastrar o produto.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const navigate = useNavigate();
@@ -51,8 +61,10 @@ function AddProduct({ onProductCreated }) {
       submitLabel="Cadastrar Produto"
       onSubmit={onsubmit}
       onImageChange={handleImageChange}
+      submitError={submitError}
+      isSubmitting={isSubmitting}
       secondaryAction={
-        <button type="button" onClick={handleLogout}>
+        <button type="button" onClick={handleLogout} disabled={isSubmitting}>
           Sair
         </button>
       }

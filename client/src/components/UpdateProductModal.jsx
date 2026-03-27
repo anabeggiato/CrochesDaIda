@@ -9,6 +9,8 @@ export default function UpdateProductModal({
   onProductUpdated,
 }) {
   const [imageFile, setImageFile] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const initialValues = {
     name: product.name,
@@ -25,20 +27,27 @@ export default function UpdateProductModal({
   };
 
   const onsubmit = async (values) => {
-    updateProduct(product.id, values, imageFile)
-      .then((updatedProduct) => {
-        alert('Produto atualizado com sucesso!');
+    try {
+      setIsSubmitting(true);
+      setSubmitError('');
 
-        if (onProductUpdated) {
-          onProductUpdated(updatedProduct);
-        }
+      const updatedProduct = await updateProduct(product.id, values, imageFile);
 
-        closeModal();
-      })
-      .catch((err) => {
-        console.error('Erro ao atualizar produto:', err.response?.data || err);
-        alert('Erro ao atualizar produto.');
-      });
+      alert('Produto atualizado com sucesso!');
+
+      if (onProductUpdated) {
+        onProductUpdated(updatedProduct);
+      }
+
+      closeModal();
+    } catch (err) {
+      console.error('Erro ao atualizar produto:', err.response?.data || err);
+      setSubmitError(
+        err.response?.data?.error || 'Não foi possível atualizar o produto.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -49,8 +58,10 @@ export default function UpdateProductModal({
         submitLabel="Atualizar Produto"
         onSubmit={onsubmit}
         onImageChange={handleImageChange}
+        submitError={submitError}
+        isSubmitting={isSubmitting}
         secondaryAction={
-          <button type="button" onClick={closeModal}>
+          <button type="button" onClick={closeModal} disabled={isSubmitting}>
             Cancelar
           </button>
         }
