@@ -23,14 +23,14 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "lint": "eslint \"src/**/*.{js,jsx}\"",
+    "format": "prettier --write \"src/**/*.{js,jsx,css,json,md}\"",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "prettier": "^3.6.2"
   },
   "browserslist": {
     "production": [
