@@ -6,10 +6,14 @@ const {
   loginUser,
   registerUser,
 } = require('../services/auth');
+const {
+  AUTH_VALIDATION_ERROR,
+  validateAuthPayload,
+} = require('../validators/auth');
 
 async function register(req, res) {
   try {
-    const { username } = await registerUser(req.body);
+    const { username } = await registerUser(validateAuthPayload(req.body));
 
     return res.status(201).json({
       message: 'Successfully registered user!',
@@ -28,6 +32,10 @@ async function register(req, res) {
         .json({ message: 'This username is already in use' });
     }
 
+    if (error.message === AUTH_VALIDATION_ERROR) {
+      return res.status(400).json({ message: error.details });
+    }
+
     console.error('Erro ao registrar usuário', error);
     return res
       .status(500)
@@ -37,7 +45,7 @@ async function register(req, res) {
 
 async function login(req, res) {
   try {
-    const { token, username } = await loginUser(req.body);
+    const { token, username } = await loginUser(validateAuthPayload(req.body));
 
     return res.status(200).json({
       message: 'Login bem sucedido!',
@@ -57,6 +65,10 @@ async function login(req, res) {
 
     if (error.message === AUTH_INVALID_PASSWORD) {
       return res.status(401).json({ message: 'Invalid password' });
+    }
+
+    if (error.message === AUTH_VALIDATION_ERROR) {
+      return res.status(400).json({ message: error.details });
     }
 
     console.error('Erro no login:', error);

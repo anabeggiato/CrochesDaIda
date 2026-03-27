@@ -7,6 +7,10 @@ const {
   PRODUCT_NOT_FOUND,
   updateProduct,
 } = require('../services/products');
+const {
+  PRODUCT_VALIDATION_ERROR,
+  validateProductPayload,
+} = require('../validators/products');
 
 async function list(req, res) {
   try {
@@ -34,9 +38,16 @@ async function getById(req, res) {
 
 async function create(req, res) {
   try {
-    const newProduct = await createProduct(req.body, req.file);
+    const newProduct = await createProduct(
+      validateProductPayload(req.body),
+      req.file
+    );
     return res.status(201).json(newProduct);
   } catch (error) {
+    if (error.message === PRODUCT_VALIDATION_ERROR) {
+      return res.status(400).json({ error: error.details });
+    }
+
     if (error.message === PRODUCT_IMAGE_UPLOAD_FAILED) {
       console.error('Erro no upload do Supabase:', error);
       return res.status(500).json({ error: 'Erro ao enviar imagem' });
@@ -49,11 +60,19 @@ async function create(req, res) {
 
 async function update(req, res) {
   try {
-    const product = await updateProduct(req.params.id, req.body, req.file);
+    const product = await updateProduct(
+      req.params.id,
+      validateProductPayload(req.body),
+      req.file
+    );
     return res.json(product);
   } catch (error) {
     if (error.message === PRODUCT_NOT_FOUND) {
       return res.status(404).json({ error: 'Produto não encontrado' });
+    }
+
+    if (error.message === PRODUCT_VALIDATION_ERROR) {
+      return res.status(400).json({ error: error.details });
     }
 
     if (error.message === PRODUCT_IMAGE_UPLOAD_FAILED) {

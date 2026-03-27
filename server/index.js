@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const { assertRequiredEnvVars } = require('./utils/env');
 
 app.use(express.json());
 app.use(cors());
@@ -16,6 +17,8 @@ app.use('/admin', adminRouter);
 
 const authRouter = require('./routes/auth');
 app.use('/auth', authRouter);
+
+assertRequiredEnvVars(['JWT_SECRET', 'SUPABASE_URL', 'SUPABASE_KEY']);
 
 db.sequelize.sync().then(() => {
   app.listen(3001, () => {
