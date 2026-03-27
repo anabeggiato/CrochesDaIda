@@ -1,17 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { MdOutlineEdit } from 'react-icons/md';
-import { BsTrash } from 'react-icons/bs';
-import { IoFilter } from 'react-icons/io5';
+import AdminProductsTable from '../components/AdminProductsTable';
 import PageState from '../components/PageState';
 import UpdateProductModal from '../components/UpdateProductModal';
 import DeleteProductModal from '../components/DeleteProductModal';
 import useProducts from '../hooks/useProducts';
-import {
-  PRODUCT_CATEGORIES,
-  PRODUCT_CATEGORY_FILTER_OPTIONS,
-} from '../constants/categories';
+import { PRODUCT_CATEGORIES } from '../constants/categories';
 import {
   filterProductsByCategory,
   sortProductsByName,
@@ -113,74 +108,30 @@ export default function AdminProductsPage() {
         />
       )}
       {!loading && !error && filteredProducts.length > 0 && (
-        <table>
-          <thead>
-            <tr>
-              <th>Produto</th>
-              <th>Preco</th>
-              <th>Altura</th>
-              <th>Largura</th>
-              <th>Peso</th>
-              <th ref={filterRef} style={{ position: 'relative' }}>
-                Categoria{' '}
-                <IoFilter
-                  onClick={() => setShowFilter((prev) => !prev)}
-                  style={{ cursor: 'pointer' }}
-                />
-                {showFilter && (
-                  <FilterDropdown>
-                    {PRODUCT_CATEGORY_FILTER_OPTIONS.map((categoryOption) => (
-                      <FilterOption
-                        key={categoryOption.value}
-                        onClick={() => {
-                          setSelectedCategory(categoryOption.value);
-                          setShowFilter(false);
-                        }}
-                      >
-                        {categoryOption.label}
-                      </FilterOption>
-                    ))}
-                  </FilterDropdown>
-                )}
-              </th>
-              <th aria-label="Editar"></th>
-              <th aria-label="Excluir"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredProducts.map((value) => (
-              <tr key={value.id}>
-                <td className="content">{value.name}</td>
-                <td className="content">R${value.value},00</td>
-                <td className="content">{value.height}cm</td>
-                <td className="content">{value.width}cm</td>
-                <td className="content">{value.weight}g</td>
-                <td className="content">{value.category}</td>
-                <td>
-                  <MdOutlineEdit onClick={() => handleEditPopup(value.id)} />
-                </td>
-                <td>
-                  <BsTrash onClick={() => handleDeletePopup(value.id)} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-
-          {showPopup && (
-            <UpdateProductModal
-              product={selectedProduct}
-              closeModal={closeModal}
-              onProductUpdated={handleProductUpdated}
-            />
-          )}
-          {confirmDeletion && (
-            <DeleteProductModal
-              product={selectedProduct}
-              closeModal={closeConfirmDeletion}
-              onProductDeleted={handleProductDeleted}
-            />
-          )}
-        </table>
+        <AdminProductsTable
+          products={filteredProducts}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          showFilter={showFilter}
+          setShowFilter={setShowFilter}
+          filterRef={filterRef}
+          onEdit={handleEditPopup}
+          onDelete={handleDeletePopup}
+        />
+      )}
+      {showPopup && (
+        <UpdateProductModal
+          product={selectedProduct}
+          closeModal={closeModal}
+          onProductUpdated={handleProductUpdated}
+        />
+      )}
+      {confirmDeletion && (
+        <DeleteProductModal
+          product={selectedProduct}
+          closeModal={closeConfirmDeletion}
+          onProductDeleted={handleProductDeleted}
+        />
       )}
     </TablePage>
   );
@@ -192,59 +143,4 @@ const TablePage = styled.div`
   align-items: center;
   padding: 4rem 0;
   text-align: right;
-
-  svg:hover {
-    cursor: pointer;
-  }
-
-  table {
-    border-collapse: collapse;
-    text-align: left;
-    width: 80%;
-  }
-
-  th,
-  td {
-    padding: 1rem;
-  }
-
-  th {
-    background-color: rgba(239, 110, 255, 0.3);
-    font-weight: 600;
-  }
-
-  tbody tr:nth-child(even) td {
-    background-color: rgba(239, 110, 255, 0.1);
-  }
-
-  tbody tr:nth-child(odd) td {
-    background-color: transparent;
-  }
-
-  td.content {
-    font-weight: 200;
-    border-bottom: 1px solid #ccc;
-  }
-`;
-
-const FilterDropdown = styled.div`
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 5;
-`;
-
-const FilterOption = styled.div`
-  padding: 8px 12px;
-  cursor: pointer;
-  border-bottom: 1px solid #eee;
-  white-space: nowrap;
-
-  &:hover {
-    background-color: #f1f1f1;
-  }
 `;
