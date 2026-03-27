@@ -7,12 +7,22 @@ import { IoFilter } from 'react-icons/io5';
 import UpdateProductModal from '../components/UpdateProductModal';
 import DeleteProductModal from '../components/DeleteProductModal';
 import useProducts from '../hooks/useProducts';
+import {
+  PRODUCT_CATEGORIES,
+  PRODUCT_CATEGORY_FILTER_OPTIONS,
+} from '../constants/categories';
+import {
+  filterProductsByCategory,
+  sortProductsByName,
+} from '../utils/products';
 
 export default function AdminProductsPage() {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState();
   const [confirmDeletion, setConfirmDeletion] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState(
+    PRODUCT_CATEGORIES.ALL
+  );
   const [showFilter, setShowFilter] = useState(false);
   const filterRef = useRef(null);
   const { products: listOfProducts, setProducts: setListOfProducts } =
@@ -40,11 +50,11 @@ export default function AdminProductsPage() {
 
   const handleProductUpdated = (updatedProduct) => {
     setListOfProducts((currentProducts) =>
-      currentProducts
-        .map((product) =>
+      sortProductsByName(
+        currentProducts.map((product) =>
           product.id === updatedProduct.id ? updatedProduct : product
         )
-        .sort((a, b) => a.name.localeCompare(b.name))
+      )
     );
   };
 
@@ -55,13 +65,7 @@ export default function AdminProductsPage() {
   };
 
   const filteredProducts = useMemo(
-    () =>
-      listOfProducts.filter((product) => {
-        if (selectedCategory === 'all') return true;
-        if (selectedCategory === 'amigurumi')
-          return product.category === 'amigurumi';
-        return product.category === 'others';
-      }),
+    () => filterProductsByCategory(listOfProducts, selectedCategory),
     [listOfProducts, selectedCategory]
   );
 
@@ -99,30 +103,17 @@ export default function AdminProductsPage() {
               />
               {showFilter && (
                 <FilterDropdown>
-                  <FilterOption
-                    onClick={() => {
-                      setSelectedCategory('all');
-                      setShowFilter(false);
-                    }}
-                  >
-                    Todos
-                  </FilterOption>
-                  <FilterOption
-                    onClick={() => {
-                      setSelectedCategory('amigurumi');
-                      setShowFilter(false);
-                    }}
-                  >
-                    Amigurumi
-                  </FilterOption>
-                  <FilterOption
-                    onClick={() => {
-                      setSelectedCategory('others');
-                      setShowFilter(false);
-                    }}
-                  >
-                    Outros
-                  </FilterOption>
+                  {PRODUCT_CATEGORY_FILTER_OPTIONS.map((categoryOption) => (
+                    <FilterOption
+                      key={categoryOption.value}
+                      onClick={() => {
+                        setSelectedCategory(categoryOption.value);
+                        setShowFilter(false);
+                      }}
+                    >
+                      {categoryOption.label}
+                    </FilterOption>
+                  ))}
                 </FilterDropdown>
               )}
             </th>

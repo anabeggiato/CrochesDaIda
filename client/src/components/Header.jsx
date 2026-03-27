@@ -4,19 +4,20 @@ import Sidebar from './Sidebar';
 import styled from 'styled-components';
 
 export default function Header({ selectedCategory, setSelectedCategory }) {
-  const [sidebar, setSidebar] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const showSidebar = () => setSidebar(!sidebar);
+  const toggleSidebar = () => setIsSidebarOpen((currentState) => !currentState);
 
   const logo = '/logoRetangular.svg';
 
   return (
     <Container>
-      <FaBars onClick={showSidebar} />
+      <FaBars onClick={toggleSidebar} />
       <img src={logo} alt="logo" />
-      {sidebar && (
+      {isSidebarOpen && (
         <Sidebar
-          active={setSidebar}
+          isOpen={isSidebarOpen}
+          onClose={() => setIsSidebarOpen(false)}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
         />

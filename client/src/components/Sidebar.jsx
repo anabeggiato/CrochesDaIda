@@ -1,52 +1,42 @@
 import styled from 'styled-components';
 import { FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import {
+  PRODUCT_CATEGORIES,
+  PRODUCT_CATEGORY_FILTER_OPTIONS,
+} from '../constants/categories';
 
 export default function Sidebar({
-  active,
+  isOpen,
+  onClose,
   selectedCategory,
   setSelectedCategory,
 }) {
-  const closeSidebar = () => {
-    active(false);
-  };
-
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
-    <Container sidebar={active}>
-      <FaTimes onClick={closeSidebar} />
+    <Container sidebar={isOpen}>
+      <FaTimes onClick={onClose} />
       <Content>
-        <Category
-          onClick={() => {
-            setSelectedCategory('all');
-            navigate('/');
-          }}
-          selected={selectedCategory === 'all'}
-        >
-          Todos
-        </Category>
-        <Category
-          onClick={() => {
-            setSelectedCategory('amigurumi');
-            navigate('/');
-          }}
-          selected={selectedCategory === 'amigurumi'}
-        >
-          Amigurumis
-        </Category>
-        <Category
-          onClick={() => {
-            setSelectedCategory('others');
-            navigate('/');
-          }}
-          selected={selectedCategory === 'others'}
-        >
-          Outros Produtos
-        </Category>
+        {PRODUCT_CATEGORY_FILTER_OPTIONS.map((categoryOption) => (
+          <Category
+            key={categoryOption.value}
+            onClick={() => {
+              setSelectedCategory(categoryOption.value);
+              navigate('/');
+              onClose();
+            }}
+            selected={selectedCategory === categoryOption.value}
+          >
+            {categoryOption.value === PRODUCT_CATEGORIES.OTHERS
+              ? 'Outros Produtos'
+              : categoryOption.label}
+          </Category>
+        ))}
         <Category
           onClick={() => {
             navigate('/contato');
+            onClose();
           }}
         >
           Contato

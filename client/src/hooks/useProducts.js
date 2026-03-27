@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchProducts } from '../services/productService';
-
-function sortProductsByName(products) {
-  return [...products].sort((a, b) => a.name.localeCompare(b.name));
-}
+import { sortProductsByName } from '../utils/products';
 
 export default function useProducts() {
   const [products, setProducts] = useState([]);

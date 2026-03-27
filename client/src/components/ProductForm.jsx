@@ -2,6 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import * as Yup from 'yup';
+import { PRODUCT_CATEGORY_OPTIONS } from '../constants/categories';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -100,8 +101,11 @@ export default function ProductForm({
             placeholder="Selecione a categoria do produto"
           >
             <option value="">Selecione...</option>
-            <option value="amigurumi">Amigurumi</option>
-            <option value="others">Outros</option>
+            {PRODUCT_CATEGORY_OPTIONS.map((categoryOption) => (
+              <option key={categoryOption.value} value={categoryOption.value}>
+                {categoryOption.label}
+              </option>
+            ))}
           </Field>
 
           <label>Imagem do produto:</label>

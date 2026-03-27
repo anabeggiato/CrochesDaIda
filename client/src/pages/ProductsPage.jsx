@@ -5,21 +5,22 @@ import { useMemo, useState } from 'react';
 import Header from '../components/Header';
 import ProductModal from '../components/ProductModal';
 import useProducts from '../hooks/useProducts';
+import { PRODUCT_CATEGORIES } from '../constants/categories';
+import {
+  filterProductsByCategory,
+  isAmigurumiProduct,
+} from '../utils/products';
 
 function ProductsPage() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState(
+    PRODUCT_CATEGORIES.ALL
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const { products: listOfProducts } = useProducts();
 
   const filteredProducts = useMemo(
-    () =>
-      listOfProducts.filter((product) => {
-        if (selectedCategory === 'all') return true;
-        if (selectedCategory === 'amigurumi')
-          return product.category === 'amigurumi';
-        return product.category === 'others';
-      }),
+    () => filterProductsByCategory(listOfProducts, selectedCategory),
     [listOfProducts, selectedCategory]
   );
 
@@ -52,11 +53,7 @@ function ProductsPage() {
                 <p>
                   {value.height}cm x {value.width}cm
                 </p>
-                {value.category === 'amigurumi' ? (
-                  <p>{value.weight}g</p>
-                ) : (
-                  <></>
-                )}
+                {isAmigurumiProduct(value) ? <p>{value.weight}g</p> : <></>}
               </div>
             </div>
           </div>
