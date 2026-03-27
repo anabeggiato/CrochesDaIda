@@ -1,22 +1,22 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import styled from 'styled-components';
 import { MdOutlineEdit } from "react-icons/md";
 import { BsTrash } from "react-icons/bs";
 import { IoFilter } from "react-icons/io5";
 import UpdateProductModal from '../components/UpdateProductModal';
 import DeleteProductModal from '../components/DeleteProductModal';
+import useProducts from '../hooks/useProducts';
 
 
-export default function AdminProducts() {
-    const [listOfProducts, setListOfProducts] = useState([]);
+export default function AdminProductsPage() {
     const [showPopup, setShowPopup] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState();
     const [confirmDeletion, setConfirmDeletion] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [showFilter, setShowFilter] = useState(false);
     const filterRef = useRef(null)
+    const { products: listOfProducts, setProducts: setListOfProducts } = useProducts();
 
     const handleEditPopup = (id) => {
         const product = listOfProducts.find(product => product.id === id);
@@ -39,16 +39,27 @@ export default function AdminProducts() {
         setConfirmDeletion(false);
     }
 
-    useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/`)
-            .then((response) => {
-                console.log('Resposta da API:', response.data)
-                setListOfProducts(response.data.sort((a, b) => a.name.localeCompare(b.name)))
-            })
-            .catch(err => {
-                console.error('Erro ao buscar produtos:', err)
-            })
-    }, [])
+    const handleProductUpdated = (updatedProduct) => {
+        setListOfProducts((currentProducts) =>
+            currentProducts
+                .map((product) => product.id === updatedProduct.id ? updatedProduct : product)
+                .sort((a, b) => a.name.localeCompare(b.name))
+        );
+    }
+
+    const handleProductDeleted = (deletedProductId) => {
+        setListOfProducts((currentProducts) =>
+            currentProducts.filter((product) => product.id !== deletedProductId)
+        );
+    }
+
+    const filteredProducts = useMemo(() => (
+        listOfProducts.filter((product) => {
+            if (selectedCategory === 'all') return true;
+            if (selectedCategory === 'amigurumi') return product.category === 'amigurumi';
+            return product.category === 'others';
+        })
+    ), [listOfProducts, selectedCategory]);
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -69,35 +80,31 @@ export default function AdminProducts() {
 
             <Link to='/admin' className='link'>Voltar</Link>
             <table>
-                <tr>
-                    <th>Produto</th>
-                    <th>Preço</th>
-                    <th>Altura</th>
-                    <th>Largura</th>
-                    <th>Peso</th>
-                    <th ref={filterRef} style={{ position: 'relative' }}>
-                        Categoria <IoFilter onClick={() => setShowFilter(prev => !prev)} style={{ cursor: 'pointer' }} />
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Preco</th>
+                        <th>Altura</th>
+                        <th>Largura</th>
+                        <th>Peso</th>
+                        <th ref={filterRef} style={{ position: 'relative' }}>
+                            Categoria <IoFilter onClick={() => setShowFilter(prev => !prev)} style={{ cursor: 'pointer' }} />
 
-                        {showFilter && (
-                            <FilterDropdown>
-                                <FilterOption onClick={() => { setSelectedCategory('all'); setShowFilter(false); }}>Todos</FilterOption>
-                                <FilterOption onClick={() => { setSelectedCategory('amigurumi'); setShowFilter(false); }}>Amigurumi</FilterOption>
-                                <FilterOption onClick={() => { setSelectedCategory('others'); setShowFilter(false); }}>Outros</FilterOption>
-                            </FilterDropdown>
-                        )}
-                    </th>
-
-                    <th></th>
-                    <th></th>
-                </tr>
-                {listOfProducts
-                    .filter(product => {
-                        if (selectedCategory === 'all') return true;
-                        if (selectedCategory === 'amigurumi') return product.category === 'amigurumi';
-                        else return product.category === 'others';
-                    })
-                    .map((value, key) => (
-                        <tr key={key}>
+                            {showFilter && (
+                                <FilterDropdown>
+                                    <FilterOption onClick={() => { setSelectedCategory('all'); setShowFilter(false); }}>Todos</FilterOption>
+                                    <FilterOption onClick={() => { setSelectedCategory('amigurumi'); setShowFilter(false); }}>Amigurumi</FilterOption>
+                                    <FilterOption onClick={() => { setSelectedCategory('others'); setShowFilter(false); }}>Outros</FilterOption>
+                                </FilterDropdown>
+                            )}
+                        </th>
+                        <th aria-label='Editar'></th>
+                        <th aria-label='Excluir'></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {filteredProducts.map((value) => (
+                        <tr key={value.id}>
                             <td className='content'>{value.name}</td>
                             <td className='content'>R${value.value},00</td>
                             <td className='content'>{value.height}cm</td>
@@ -108,9 +115,10 @@ export default function AdminProducts() {
                             <td><BsTrash onClick={() => handleDeletePopup(value.id)} /></td>
                         </tr>
                     ))}
+                </tbody>
 
-                {showPopup && <UpdateProductModal product={selectedProduct} closeModal={closeModal} />}
-                {confirmDeletion && <DeleteProductModal product={selectedProduct} closeModal={closeConfirmDeletion} />}
+                {showPopup && <UpdateProductModal product={selectedProduct} closeModal={closeModal} onProductUpdated={handleProductUpdated} />}
+                {confirmDeletion && <DeleteProductModal product={selectedProduct} closeModal={closeConfirmDeletion} onProductDeleted={handleProductDeleted} />}
             </table>
         </TablePage>
     )
@@ -143,11 +151,11 @@ const TablePage = styled.div`
         font-weight: 600;
     }
 
-    tr:nth-child(even) td {
+    tbody tr:nth-child(even) td {
         background-color: rgba(239, 110, 255, 0.10);
+    }
 
-
-    tr:nth-child(odd) td {
+    tbody tr:nth-child(odd) td {
         background-color: transparent;
     }
 
@@ -179,5 +187,3 @@ const FilterOption = styled.div`
     background-color: #f1f1f1;
     }
 `;
-
-

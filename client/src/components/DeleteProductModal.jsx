@@ -1,18 +1,18 @@
-import axios from 'axios'
 import styled from 'styled-components'
+import { deleteProduct } from '../services/productService';
 
-export default function DeleteProductModal({ product, closeModal }) {
+export default function DeleteProductModal({ product, closeModal, onProductDeleted }) {
 
-    const deleteProduct = () => {
-        axios.delete(`${process.env.REACT_APP_API_URL}/admin/produto/delete/${product.id}`, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-        })
+    const handleDeleteProduct = () => {
+        deleteProduct(product.id)
             .then(() => {
                 alert('Produto deletado com sucesso!');
+
+                if (onProductDeleted) {
+                    onProductDeleted(product.id);
+                }
+
                 closeModal(); 
-                window.location.reload();
             })
             .catch((err) => {
                 console.error('Erro ao deletar produto:', err.response?.data || err);
@@ -26,7 +26,7 @@ export default function DeleteProductModal({ product, closeModal }) {
             <PopupContent>
                 Tem certeza que deseja deletar o produto "{product.name}"?
                 <div className='buttons'>
-                    <button onClick={deleteProduct}>Sim</button>
+                    <button onClick={handleDeleteProduct}>Sim</button>
                     <button onClick={closeModal}>Não</button>
                 </div>
             </PopupContent>

@@ -1,27 +1,24 @@
 import '../App.css'
 import styled from 'styled-components'
-import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import Header from '../components/Header'
 import ProductModal from '../components/ProductModal'
+import useProducts from '../hooks/useProducts'
 
-function Products() {
-  const [listOfProducts, setListOfProducts] = useState([]);
+function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null); 
+  const { products: listOfProducts } = useProducts();
 
-  useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/`)
-      .then((response) => {
-        console.log('Resposta da API:', response.data)
-        setListOfProducts(response.data.sort((a, b) => a.name.localeCompare(b.name)))
-      })
-      .catch(err => {
-        console.error('Erro ao buscar produtos:', err)
-      })
-  }, [])
+  const filteredProducts = useMemo(() => (
+    listOfProducts.filter((product) => {
+      if (selectedCategory === 'all') return true;
+      if (selectedCategory === 'amigurumi') return product.category === 'amigurumi';
+      return product.category === 'others';
+    })
+  ), [listOfProducts, selectedCategory]);
 
   const openProductModal = (id) => {
     const product = listOfProducts.find(product => product.id === id);
@@ -33,14 +30,9 @@ function Products() {
     <StyledWrapper>
       <Header selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
       <div className='products'>
-        {listOfProducts
-        .filter(product => {
-          if (selectedCategory === 'all') return true;
-          if (selectedCategory === 'amigurumi') return product.category === 'amigurumi';
-          else return product.category === 'others';
-        })
-        .map((value, key) => (
-            <div className='product' key={value.id || key} onClick={() => openProductModal(value.id)}>
+        {filteredProducts
+        .map((value) => (
+            <div className='product' key={value.id} onClick={() => openProductModal(value.id)}>
               <div className='product-img'>
                 <img src={value.image_url} alt={value.name} />
               </div>
@@ -196,4 +188,4 @@ span {
 }
 `
 
-export default Products
+export default ProductsPage
