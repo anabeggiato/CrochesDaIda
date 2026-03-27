@@ -12,26 +12,26 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path='/' element={<ProductsPage />} />
-          <Route path='/contato' element={<ContactPage />} />
-          <Route path='/login' element={<LoginPage />} />
+          <Route path="/" element={<ProductsPage />} />
+          <Route path="/contato" element={<ContactPage />} />
+          <Route path="/login" element={<LoginPage />} />
 
           {/* Rotas protegidas */}
-          <Route 
-            path='/admin' 
+          <Route
+            path="/admin"
             element={
               <PrivateRoute>
                 <AdminPage />
               </PrivateRoute>
-            } 
+            }
           />
-          <Route 
-            path='/admin/produtos' 
+          <Route
+            path="/admin/produtos"
             element={
               <PrivateRoute>
                 <AdminProductsPage />
               </PrivateRoute>
-            } 
+            }
           />
         </Routes>
       </Router>

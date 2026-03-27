@@ -1,33 +1,32 @@
-import React from 'react'
-import styled from 'styled-components'
-import AddProduct from '../components/AddProduct'
+import React from 'react';
+import styled from 'styled-components';
+import AddProduct from '../components/AddProduct';
 
 function AdminPage() {
-  
-    return (
-        <StyledWrapper>
+  return (
+    <StyledWrapper>
       <AddProduct />
-        </StyledWrapper>
-    )
+    </StyledWrapper>
+  );
 }
 
 const StyledWrapper = styled.div`
-.addProductPage {
-  display: flex;
-  flex-direction: column;
+  .addProductPage {
+    display: flex;
+    flex-direction: column;
 
-  margin: 5rem;
-  gap: 5px;
-}
+    margin: 5rem;
+    gap: 5px;
+  }
 
-.addProductPage>span {
-  font-size: 10px;
-  color: red;
-}
+  .addProductPage > span {
+    font-size: 10px;
+    color: red;
+  }
 
-.link {
-  text-align: center;
-}
-`
+  .link {
+    text-align: center;
+  }
+`;
 
-export default AdminPage
+export default AdminPage;

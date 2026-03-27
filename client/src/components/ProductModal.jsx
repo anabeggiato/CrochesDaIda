@@ -1,25 +1,25 @@
-import styled from 'styled-components'
-import { FaTimes } from 'react-icons/fa'
+import styled from 'styled-components';
+import { FaTimes } from 'react-icons/fa';
 
 export default function ProductModal({ product, closeModal }) {
-    return (
-        <Popup>
-            <Card>
-                <FaTimes onClick={closeModal} />
-                <img src={product.image_url} alt='item de croche' />
-                <div className='infos'>
-                    <h2>{product.name}</h2>
-                    <span>R${product.value},00</span>
-                    <div className='dimensions'>
-                        <h4>Especificações:</h4>
-                        <p>Altura: {product.height}cm</p>
-                        <p>Largura: {product.width}cm</p>
-                        <p>Peso: {product.weight}g</p>
-                    </div>
-                </div>
-            </Card>
-        </Popup>
-    )
+  return (
+    <Popup>
+      <Card>
+        <FaTimes onClick={closeModal} />
+        <img src={product.image_url} alt="item de croche" />
+        <div className="infos">
+          <h2>{product.name}</h2>
+          <span>R${product.value},00</span>
+          <div className="dimensions">
+            <h4>Especificações:</h4>
+            <p>Altura: {product.height}cm</p>
+            <p>Largura: {product.width}cm</p>
+            <p>Peso: {product.weight}g</p>
+          </div>
+        </div>
+      </Card>
+    </Popup>
+  );
 }
 
 const Popup = styled.div`
@@ -34,11 +34,11 @@ const Popup = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const Card = styled.div`
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   background-color: #fad6ff;
   border-radius: 20px;
   padding: 2rem;
@@ -69,7 +69,7 @@ const Card = styled.div`
   .dimensions {
     margin-top: 1rem;
     font-size: 16px;
-    color: #6E6E6E !important;
+    color: #6e6e6e !important;
   }
 
   > svg {
@@ -84,5 +84,4 @@ const Card = styled.div`
   @media (max-width: 1350px) {
     width: 70%;
   }
-`
-
+`;

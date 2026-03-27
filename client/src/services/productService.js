@@ -46,11 +46,15 @@ export async function createProduct(values, imageFile) {
 export async function updateProduct(productId, values, imageFile) {
   const formData = buildProductFormData(values, imageFile);
 
-  const response = await api.put(`admin/produto/update/${productId}`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  const response = await api.put(
+    `admin/produto/update/${productId}`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  );
 
   return response.data;
 }

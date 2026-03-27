@@ -1,37 +1,39 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 import { deleteProduct } from '../services/productService';
 
-export default function DeleteProductModal({ product, closeModal, onProductDeleted }) {
+export default function DeleteProductModal({
+  product,
+  closeModal,
+  onProductDeleted,
+}) {
+  const handleDeleteProduct = () => {
+    deleteProduct(product.id)
+      .then(() => {
+        alert('Produto deletado com sucesso!');
 
-    const handleDeleteProduct = () => {
-        deleteProduct(product.id)
-            .then(() => {
-                alert('Produto deletado com sucesso!');
+        if (onProductDeleted) {
+          onProductDeleted(product.id);
+        }
 
-                if (onProductDeleted) {
-                    onProductDeleted(product.id);
-                }
+        closeModal();
+      })
+      .catch((err) => {
+        console.error('Erro ao deletar produto:', err.response?.data || err);
+        alert('Erro ao deletar produto.');
+      });
+  };
 
-                closeModal(); 
-            })
-            .catch((err) => {
-                console.error('Erro ao deletar produto:', err.response?.data || err);
-                alert('Erro ao deletar produto.');
-            });
-    }
-
-
-    return (
-        <Popup>
-            <PopupContent>
-                Tem certeza que deseja deletar o produto "{product.name}"?
-                <div className='buttons'>
-                    <button onClick={handleDeleteProduct}>Sim</button>
-                    <button onClick={closeModal}>Não</button>
-                </div>
-            </PopupContent>
-        </Popup>
-    )
+  return (
+    <Popup>
+      <PopupContent>
+        Tem certeza que deseja deletar o produto "{product.name}"?
+        <div className="buttons">
+          <button onClick={handleDeleteProduct}>Sim</button>
+          <button onClick={closeModal}>Não</button>
+        </div>
+      </PopupContent>
+    </Popup>
+  );
 }
 
 const Popup = styled.div`
@@ -41,7 +43,7 @@ const Popup = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-`
+`;
 
 const PopupContent = styled.div`
   width: 30%;
@@ -57,19 +59,17 @@ const PopupContent = styled.div`
   flex-direction: column;
   align-items: center;
 
-
   button {
-      border: none;
-      padding: .5rem 2rem;
-      border-radius: 15px;
-      background-color: #C514DB;
-      color: #fff;
-      margin: 1rem 1rem 0 1rem;
-
+    border: none;
+    padding: 0.5rem 2rem;
+    border-radius: 15px;
+    background-color: #c514db;
+    color: #fff;
+    margin: 1rem 1rem 0 1rem;
   }
 
   button:hover {
-      cursor: pointer;
-      background-color: #860194;
+    cursor: pointer;
+    background-color: #860194;
   }
-`
+`;
