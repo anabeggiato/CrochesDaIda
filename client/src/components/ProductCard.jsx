@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { isAmigurumiProduct } from '../utils/products';
 
 export default function ProductCard({ product, onClick }) {
   return (
@@ -8,14 +7,8 @@ export default function ProductCard({ product, onClick }) {
         <img src={product.image_url} alt={product.name} />
       </div>
       <div className="product-card-infos">
-        <h2>{product.name}</h2>
-        <span>R${product.value},00</span>
-        <div className="dimensions">
-          <p>
-            {product.height}cm x {product.width}cm
-          </p>
-          {isAmigurumiProduct(product) ? <p>{product.weight}g</p> : null}
-        </div>
+        <h2>{product.name} em crochê amigurumi</h2>
+        <span>R${product.value}, 00</span>
       </div>
     </Card>
   );
@@ -25,9 +18,7 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #fad6ff;
   width: 80%;
-  border-radius: 20px;
   gap: 0.5rem;
 
   &:hover {
@@ -35,18 +26,14 @@ const Card = styled.div`
   }
 
   .product-img {
-    width: 90%;
-    height: 70%;
+    width: 100%;
+    height: 100%;
     max-height: 250px;
-    margin-top: 2vh;
-    border-radius: 20px;
   }
 
   .product-img img {
     width: 100%;
     height: 100%;
-    border-radius: 20px;
-    max-height: 220px;
   }
 
   .product-card-infos {
@@ -63,15 +50,7 @@ const Card = styled.div`
     text-transform: capitalize;
   }
 
-  .dimensions {
-    color: rgb(141, 141, 141);
-    text-align: center;
-    font-size: 12px;
-    padding-bottom: 0.5rem;
-  }
-
   span {
-    color: #860194;
     text-align: center;
     font-size: 16px;
     font-weight: 600;
