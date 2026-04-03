@@ -7,7 +7,7 @@ export default function ProductCard({ product, onClick }) {
         <img src={product.image_url} alt={product.name} />
       </div>
       <div className="product-card-infos">
-        <h2>{product.name} em crochê amigurumi</h2>
+        <h2>{product.name} em crochê</h2>
         <span>R${product.value}, 00</span>
       </div>
     </Card>
@@ -28,7 +28,7 @@ const Card = styled.div`
   .product-img {
     width: 100%;
     height: 100%;
-    max-height: 250px;
+    max-height: 300px;
   }
 
   .product-img img {

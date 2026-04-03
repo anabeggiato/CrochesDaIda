@@ -84,10 +84,10 @@ function ProductsPage() {
 const StyledWrapper = styled.div`
   .products {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     justify-items: center;
     row-gap: 3rem;
-    margin: calc(100px + 4vh) 4vw 4vh 4vw;
+    margin: 170px 196px;
   }
 
   @media (min-width: 1145px) and (max-width: 1625px) {
