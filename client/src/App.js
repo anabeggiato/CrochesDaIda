@@ -5,7 +5,8 @@ import AdminPage from './pages/AdminPage';
 import AdminProductsPage from './pages/AdminProductsPage';
 import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
-import PrivateRoute from './components/PrivateRoute'; // seu componente de proteção
+import PrivateRoute from './components/PrivateRoute';
+import ProductPage from './pages/ProductPage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<ProductsPage />} />
+          <Route path="/produto/:id" element={<ProductPage />} />
           <Route path="/contato" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
 

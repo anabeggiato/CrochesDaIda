@@ -26,14 +26,26 @@ const Card = styled.div`
   }
 
   .product-img {
+    position: relative;
     width: 100%;
-    height: 100%;
-    max-height: 300px;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: #f3f3f3;
+  }
+
+  .product-img::before {
+    content: '';
+    display: block;
+    padding-top: 100%;
   }
 
   .product-img img {
+    position: absolute;
+    inset: 0;
+    display: block;
     width: 100%;
     height: 100%;
+    object-fit: cover;
   }
 
   .product-card-infos {
@@ -64,11 +76,6 @@ const Card = styled.div`
   @media (max-width: 480px) {
     width: 90%;
     row-gap: 1rem;
-
-    .product-img {
-      max-height: 155px;
-      align-items: center;
-    }
 
     .product-card-infos > h2 {
       max-width: 90%;

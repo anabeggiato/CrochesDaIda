@@ -87,7 +87,7 @@ const StyledWrapper = styled.div`
     grid-template-columns: 1fr 1fr 1fr 1fr;
     justify-items: center;
     row-gap: 3rem;
-    margin: 170px 196px;
+    margin: 170px 10%;
   }
 
   @media (min-width: 1145px) and (max-width: 1625px) {
@@ -101,10 +101,6 @@ const StyledWrapper = styled.div`
     .products {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
-    }
-
-    .product-img {
-      max-height: 160px;
     }
   }
 
