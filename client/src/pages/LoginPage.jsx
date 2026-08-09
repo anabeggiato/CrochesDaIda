@@ -1,10 +1,10 @@
 // src/pages/Login.jsx
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components'
+import styled from 'styled-components';
+import { loginUser } from '../services/authService';
 
-function Login() {
+function LoginPage() {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
@@ -15,34 +15,35 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, {
+      const response = await loginUser({
         username,
-        password
+        password,
       });
 
-      const { token } = response.data;
+      const { token } = response;
       localStorage.setItem('token', token);
 
       navigate('/admin');
     } catch (error) {
-      setMensagemErro(
-        error.response?.data?.message || 'Erro ao fazer login'
-      );
+      setMensagemErro(error.response?.data?.message || 'Erro ao fazer login');
     }
   };
 
   return (
-    <LoginPage>
+    <LoginPageWrapper>
       <LoginContainer>
         <h2>Login</h2>
-        <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <form
+          onSubmit={handleLogin}
+          style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+        >
           <input
             type="text"
             placeholder="Usuário"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            autoComplete='off'
+            autoComplete="off"
           />
 
           <input
@@ -51,7 +52,7 @@ function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            autoComplete='off'
+            autoComplete="off"
           />
 
           <button type="submit">Entrar</button>
@@ -59,15 +60,15 @@ function Login() {
 
         {mensagemErro && <p style={{ color: 'red' }}>{mensagemErro}</p>}
       </LoginContainer>
-    </LoginPage>
+    </LoginPageWrapper>
   );
 }
 
-const LoginPage = styled.div`
+const LoginPageWrapper = styled.div`
   width: 100vw;
   height: 100vh;
-  background-color: #C514DB;
-`
+  background-color: #c514db;
+`;
 
 const LoginContainer = styled.div`
   display: flex;
@@ -86,14 +87,14 @@ const LoginContainer = styled.div`
 
   h2 {
     margin-bottom: 1rem;
-    color: #C514DB;
+    color: #c514db;
   }
 
   button {
     border: none;
-    padding: .5rem 0;
+    padding: 0.5rem 0;
     border-radius: 15px;
-    background-color: #C514DB;
+    background-color: #c514db;
     color: #fff;
   }
 
@@ -105,15 +106,13 @@ const LoginContainer = styled.div`
   input {
     border: none;
     border-radius: 10px;
-    padding-left: .5rem;
+    padding-left: 0.5rem;
   }
 
   @media (max-width: 500px) {
     width: 60%;
     padding: 2.5rem;
   }
+`;
 
-`
-
-export default Login;
-
+export default LoginPage;
