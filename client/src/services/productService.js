@@ -1,4 +1,5 @@
 import api from './api';
+import { compressImageFile } from '../utils/productImages';
 
 function normalizeProductsResponse(data) {
   if (Array.isArray(data)) {
@@ -12,7 +13,7 @@ function normalizeProductsResponse(data) {
   return [];
 }
 
-function buildProductFormData(values, imageFile) {
+async function buildProductFormData(values, imageFile) {
   const formData = new FormData();
 
   Object.entries(values).forEach(([key, value]) => {
@@ -20,7 +21,8 @@ function buildProductFormData(values, imageFile) {
   });
 
   if (imageFile) {
-    formData.append('image', imageFile);
+    const optimizedImageFile = await compressImageFile(imageFile);
+    formData.append('image', optimizedImageFile);
   }
 
   return formData;
@@ -32,7 +34,7 @@ export async function fetchProducts() {
 }
 
 export async function createProduct(values, imageFile) {
-  const formData = buildProductFormData(values, imageFile);
+  const formData = await buildProductFormData(values, imageFile);
 
   const response = await api.post('admin/produtos', formData, {
     headers: {
@@ -44,7 +46,7 @@ export async function createProduct(values, imageFile) {
 }
 
 export async function updateProduct(productId, values, imageFile) {
-  const formData = buildProductFormData(values, imageFile);
+  const formData = await buildProductFormData(values, imageFile);
 
   const response = await api.put(
     `admin/produto/update/${productId}`,

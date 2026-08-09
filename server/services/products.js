@@ -16,6 +16,7 @@ async function uploadProductImage(file) {
   const { error } = await supabase.storage
     .from('products')
     .upload(fileName, file.buffer, {
+      cacheControl: '31536000',
       contentType: file.mimetype,
     });
 
