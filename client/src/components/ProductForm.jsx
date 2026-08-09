@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 import { PRODUCT_CATEGORY_OPTIONS } from '../constants/categories';
+import { getTransformedImageUrl } from '../utils/productImages';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -36,7 +37,11 @@ export default function ProductForm({
 
   useEffect(() => {
     if (!imageFile) {
-      setPreviewUrl(currentImageUrl || null);
+      setPreviewUrl(
+        currentImageUrl
+          ? getTransformedImageUrl(currentImageUrl, 'preview')
+          : null
+      );
       return undefined;
     }
 

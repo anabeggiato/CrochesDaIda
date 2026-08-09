@@ -1,10 +1,25 @@
 import styled from 'styled-components';
+import {
+  getProductImageSrcSet,
+  getProductImageUrl,
+} from '../utils/productImages';
 
 export default function ProductCard({ product, onClick }) {
+  const imageSrc = getProductImageUrl(product, 'thumbnail');
+  const imageSrcSet = getProductImageSrcSet(product, 'thumbnail');
+
   return (
     <Card onClick={onClick}>
       <div className="product-img">
-        <img src={product.image_url} alt={product.name} />
+        <img
+          src={imageSrc}
+          srcSet={imageSrcSet}
+          sizes="(max-width: 480px) 45vw, (max-width: 768px) 40vw, (max-width: 1144px) 25vw, 18vw"
+          alt={product.name}
+          loading="lazy"
+          decoding="async"
+          fetchPriority="low"
+        />
       </div>
       <div className="product-card-infos">
         <h2>{product.name} em crochê</h2>

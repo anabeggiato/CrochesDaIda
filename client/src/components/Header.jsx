@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { useState } from 'react';
+import { FaBars, FaTimes } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   PRODUCT_CATEGORIES,
@@ -6,6 +8,7 @@ import {
 } from '../constants/categories';
 
 export default function Header({ selectedCategory, setSelectedCategory }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -13,39 +16,61 @@ export default function Header({ selectedCategory, setSelectedCategory }) {
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
+    setIsMenuOpen(false);
     navigate('/');
+  };
+
+  const handleContactClick = () => {
+    setIsMenuOpen(false);
+    navigate('/contato');
   };
 
   return (
     <Container>
       <Navigation>
-        <LogoWrapper onClick={() => navigate('/')}>
+        <LogoWrapper
+          onClick={() => {
+            setIsMenuOpen(false);
+            navigate('/');
+          }}
+        >
           <img src={logo} alt="logo" />
         </LogoWrapper>
 
-        {PRODUCT_CATEGORY_FILTER_OPTIONS.map((categoryOption) => (
-          <NavItem
-            key={categoryOption.value}
-            type="button"
-            onClick={() => handleCategoryClick(categoryOption.value)}
-            selected={
-              location.pathname === '/' &&
-              selectedCategory === categoryOption.value
-            }
-          >
-            {categoryOption.value === PRODUCT_CATEGORIES.OTHERS
-              ? 'Outros Produtos'
-              : categoryOption.label}
-          </NavItem>
-        ))}
-
-        <NavItem
+        <MobileMenuButton
           type="button"
-          onClick={() => navigate('/contato')}
-          selected={location.pathname === '/contato'}
+          aria-label={isMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+          aria-expanded={isMenuOpen}
+          onClick={() => setIsMenuOpen((currentValue) => !currentValue)}
         >
-          Contato
-        </NavItem>
+          {isMenuOpen ? <FaTimes /> : <FaBars />}
+        </MobileMenuButton>
+
+        <MenuWrapper $isOpen={isMenuOpen}>
+          {PRODUCT_CATEGORY_FILTER_OPTIONS.map((categoryOption) => (
+            <NavItem
+              key={categoryOption.value}
+              type="button"
+              onClick={() => handleCategoryClick(categoryOption.value)}
+              selected={
+                location.pathname === '/' &&
+                selectedCategory === categoryOption.value
+              }
+            >
+              {categoryOption.value === PRODUCT_CATEGORIES.OTHERS
+                ? 'Outros Produtos'
+                : categoryOption.label}
+            </NavItem>
+          ))}
+
+          <NavItem
+            type="button"
+            onClick={handleContactClick}
+            selected={location.pathname === '/contato'}
+          >
+            Contato
+          </NavItem>
+        </MenuWrapper>
       </Navigation>
     </Container>
   );
@@ -68,11 +93,8 @@ const Container = styled.div`
   z-index: 99;
 
   @media (max-width: 768px) {
-    min-height: 88px;
-    flex-direction: column;
-    justify-content: center;
-    padding: 12px 16px;
-    gap: 12px;
+    min-height: 74px;
+    padding: 8px 16px;
   }
 `;
 
@@ -91,9 +113,9 @@ const LogoWrapper = styled.button`
     display: block;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     > img {
-      height: 50px;
+      height: 54px;
     }
   }
 `;
@@ -106,11 +128,57 @@ const Navigation = styled.nav`
   width: 100%;
 
   @media (max-width: 768px) {
+    position: relative;
     width: 100%;
+    justify-content: space-between;
+    gap: 16px;
+  }
+`;
+
+const MenuWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 24px;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    display: ${({ $isOpen }) => ($isOpen ? 'flex' : 'none')};
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 12px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.98);
+    border: 1px solid rgba(134, 1, 148, 0.12);
+    border-radius: 12px;
+    box-shadow: 0 12px 28px rgba(94, 62, 43, 0.14);
+  }
+`;
+
+const MobileMenuButton = styled.button`
+  display: none;
+  border: none;
+  background: transparent;
+  color: #860194;
+  cursor: pointer;
+  padding: 10px;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
     justify-content: center;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    padding-bottom: 4px;
   }
 `;
 
@@ -129,5 +197,16 @@ const NavItem = styled.button`
 
   &:hover {
     border-bottom-color: #C26FE0;
+  }
+
+  @media (max-width: 768px) {
+    padding: 12px 14px;
+    border: 1px solid
+      ${({ selected }) => (selected ? '#C26FE0' : 'rgba(134, 1, 148, 0.14)')};
+    border-radius: 10px;
+    background-color: ${({ selected }) =>
+      selected ? 'rgba(194, 111, 224, 0.16)' : '#ffffff'};
+    font-size: 14px;
+    text-align: left;
   }
 `;
