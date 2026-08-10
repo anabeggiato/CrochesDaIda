@@ -30,7 +30,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     category: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM(
+        'amigurumi',
+        'bolsa',
+        'tapete',
+        'chaveiro',
+        'others'
+      ),
       allowNull: true,
     },
     image_url: {

@@ -2,10 +2,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {
-  PRODUCT_CATEGORIES,
-  PRODUCT_CATEGORY_FILTER_OPTIONS,
-} from '../constants/categories';
+import { PRODUCT_CATEGORY_FILTER_OPTIONS } from '../constants/categories';
 
 export default function Header({ selectedCategory, setSelectedCategory }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -57,9 +54,7 @@ export default function Header({ selectedCategory, setSelectedCategory }) {
                 selectedCategory === categoryOption.value
               }
             >
-              {categoryOption.value === PRODUCT_CATEGORIES.OTHERS
-                ? 'Outros Produtos'
-                : categoryOption.label}
+              {categoryOption.label}
             </NavItem>
           ))}
 
@@ -124,7 +119,7 @@ const Navigation = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  gap: 24px;
+  gap: 18px;
   width: 100%;
 
   @media (max-width: 768px) {
@@ -139,7 +134,7 @@ const MenuWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  gap: 24px;
+  gap: 18px;
   width: 100%;
 
   @media (max-width: 768px) {
@@ -187,7 +182,7 @@ const NavItem = styled.button`
   padding: 10px 0;
   background: transparent;
   color: #000000;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   cursor: pointer;
   transition: border-color 0.2s ease;

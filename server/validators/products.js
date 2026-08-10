@@ -1,4 +1,11 @@
 const PRODUCT_VALIDATION_ERROR = 'PRODUCT_VALIDATION_ERROR';
+const PRODUCT_CATEGORIES = [
+  'amigurumi',
+  'bolsa',
+  'tapete',
+  'chaveiro',
+  'others',
+];
 
 function createValidationError(message) {
   const error = new Error(PRODUCT_VALIDATION_ERROR);
@@ -53,7 +60,7 @@ function validateProductPayload(payload) {
     throw createValidationError('O peso do produto deve ser um número válido');
   }
 
-  if (category && !['amigurumi', 'others'].includes(category)) {
+  if (category && !PRODUCT_CATEGORIES.includes(category)) {
     throw createValidationError('A categoria do produto é inválida');
   }
 
@@ -69,6 +76,7 @@ function validateProductPayload(payload) {
 }
 
 module.exports = {
+  PRODUCT_CATEGORIES,
   PRODUCT_VALIDATION_ERROR,
   validateProductPayload,
 };
