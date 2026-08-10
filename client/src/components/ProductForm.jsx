@@ -170,7 +170,7 @@ const FormCard = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgb(250, 214, 255);
+  background-color: #f5f5f5;
   border-radius: 30px;
 
   .productForm {
