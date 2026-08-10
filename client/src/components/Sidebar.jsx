@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 import { FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import {
-  PRODUCT_CATEGORIES,
-  PRODUCT_CATEGORY_FILTER_OPTIONS,
-} from '../constants/categories';
+import { PRODUCT_CATEGORY_FILTER_OPTIONS } from '../constants/categories';
 
 export default function Sidebar({
   isOpen,
@@ -28,9 +25,7 @@ export default function Sidebar({
             }}
             selected={selectedCategory === categoryOption.value}
           >
-            {categoryOption.value === PRODUCT_CATEGORIES.OTHERS
-              ? 'Outros Produtos'
-              : categoryOption.label}
+            {categoryOption.label}
           </Category>
         ))}
         <Category
